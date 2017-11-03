@@ -1,0 +1,49 @@
+{
+  "version": "0.0.1",
+  "project": "project-id",
+  "localTestEnvironmentVariables":{},
+  "resources": [
+    {
+      "id": "Images",
+      "provider": "AWS",
+      "service": "StaticFileStore",
+      "region": ["England"],
+      "properties": {
+          "directory": "./images",
+          "accessibility": "public"
+      }
+    },
+    {
+      "id": "CSS",
+      "provider": "GCP",
+      "service": "StaticFileStore",
+      "region": ["Ireland"],
+      "properties": {
+          "directory": "./css",
+          "accessibility": "public"
+      }
+    },
+    {
+      "id": "HelloWorldApp",
+      "provider": "GCP",
+      "service": "Serverless",
+      "region": ["England", "America", "Spain"],
+      "properties": {
+          "directory": "./HelloWorldApp",
+          "entry": "index.js",
+          "language": "nodeJs"
+      }
+    },
+    {
+      "id": "SQLDatabase",
+      "provider": "GCP",
+      "service": "SQL",
+      "region": ["England"],
+      "properties": {
+          "directory": "./HelloWorldApp",
+          "entry": "index.js",
+          "language": "nodeJs"
+      }
+    }
+  ]
+}
