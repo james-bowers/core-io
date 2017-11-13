@@ -1,5 +1,8 @@
 const open = (string, obj) => console.log('\n\n', string, JSON.stringify(obj,null,2))
 const Promise = require('bluebird');
+var proxy = require('http-proxy-middleware');
+
+
 const p = require('pem');
 const pem = {
   createPrivateKey: Promise.promisify(p.createPrivateKey),
@@ -13,7 +16,7 @@ const privateRsaKey = require('./settings').privateRsaKey
 const express = require('express')
 const app = express()
 
-app.get('/', (req, res) => {
+app.get('/cert-info', (req, res) => {
   var cert = req.connection.getPeerCertificate();
   res.send('Welcome\n Cert details are:' + JSON.stringify(cert,null,2))
 })
@@ -31,6 +34,9 @@ app.get('/getP12', (req, res) => {
     })
   })
 })
+
+// this proxies the request to a lambda function
+app.use('/', proxy({ prependPath:true, target: 'https://ifuoastcl2.execute-api.eu-west-2.amazonaws.com/Prod', changeOrigin: true }));
 
 // create https server
 const https = require('https');

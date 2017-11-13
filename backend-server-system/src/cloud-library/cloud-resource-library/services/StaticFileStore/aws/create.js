@@ -1,4 +1,4 @@
-const {buildBucketName} = require('./../../../helper')
+const { buildResourceName, getProjectId} = require('./../../../helper')
 
 const awsAccessControllValue = (coreIoAccessibilitySetting) => {
     return {
@@ -7,13 +7,13 @@ const awsAccessControllValue = (coreIoAccessibilitySetting) => {
     }[coreIoAccessibilitySetting]
 }
 
-module.exports = (aws) => (configuration, tagName, awsRegion, resource) => {
+module.exports = (aws) => (configuration, resource, awsRegion, tagName) => {
 
     let s3 = aws('s3')
-    console.log('configuration', configuration)
-    let projectId = configuration.projectConfiguration.project
 
-    let bucketName = buildBucketName(projectId, tagName, awsRegion, resource.id)
+    let projectId = getProjectId(configuration)
+
+    let bucketName = buildResourceName(projectId, tagName, awsRegion, resource.id)
 
     var params = {
         Bucket: bucketName,
@@ -21,13 +21,14 @@ module.exports = (aws) => (configuration, tagName, awsRegion, resource) => {
         CreateBucketConfiguration: {
             LocationConstraint: awsRegion
         }
-    };
+    }
 
     let createBucketPromise = s3.createBucket(params).promise()
     createBucketPromise.then(data => {
-        console.log(data)
-        // TODO - store this resource created in the db (to use for proxy service/customer reference) || data = {Location: xxx}
+
+        // data: {Location: x}
     }).catch(e => {
         console.log(err, err.stack);
+        throw e;
     })
 }

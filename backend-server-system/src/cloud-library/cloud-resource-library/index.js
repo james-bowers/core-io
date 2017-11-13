@@ -1,12 +1,46 @@
-// This library is designed to manage the creation of cloud resources
+const awsSdk = require('./../cloud-resource-library/services/awsSDK')
 
-module.exports = (configuration) => (type) => {
+let runAction = (action, resource) => {
 
-    let create = require('./create')(configuration)
-    let deploy = require('./deploy')(configuration)
+    let provider = resource.provider.toLowerCase();
+    
+    return require(`./services/${resource.service}/${provider}/${action}`)
+}
 
+let forEachResource = (configuration, funcToRun) => {
+    configuration.projectConfiguration.resources.forEach(resource => {
+        funcToRun(resource)
+    })
+}
+
+let forEachRegionInResource = (resource, funcToRun) => {
+    resource.regions.forEach(region => {
+        funcToRun(region)
+    })
+}
+
+let getCloudVendorSDK = (configuration, resource) => {
     return {
-        create,
-        deploy
-    }[type]
+        "AWS": awsSdk(configuration)
+        // "GCP"
+    }[resource.provider]
+
+}
+
+let getVendorFormattedRegion = (resource, region) => {
+    return {
+        "AWS": {
+            "England": "eu-west-2"
+        }
+    }[resource.provider][region]
+}
+
+module.exports = (configuration) => (action) => (tagName) => {
+    forEachResource(configuration, (resource) => {
+        forEachRegionInResource(resource, region => {
+            let cloudVendorSDK = getCloudVendorSDK(configuration, resource)
+            let vendorFormattedRegion = getVendorFormattedRegion(resource, region)
+            runAction(action, resource)(cloudVendorSDK)(configuration, resource, vendorFormattedRegion, tagName)
+        })
+    })
 }

@@ -15,14 +15,15 @@ const getAwsConfig = (cloudAccessCredentials) => {
     return awsConfig
 }
 
-module.exports = (cloudAccessCredentials) => (service) => {
-    // return aws SDK after applying credentials to it
 
-    // let awsCredentials = new aws.Credentials(accessKeyId, secretAccessKey);
-    // aws.Credentials = awsCredentials
-    // return aws;
 
+module.exports = (configuration) => (service) => {    
+    let awsConfig = getAwsConfig(configuration.cloudAccessCredentials)
     return {
-        s3: new AWS.S3(getAwsConfig(cloudAccessCredentials))
+        s3: new AWS.S3(awsConfig),
+        cf: (region) => {
+            awsConfig.update({ region })
+            return new AWS.CloudFormation(awsConfig)
+        }
     }[service]
 }

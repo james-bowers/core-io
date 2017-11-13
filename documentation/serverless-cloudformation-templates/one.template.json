@@ -1,0 +1,111 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Parameters": {
+    "DomainName": {
+      "Type": "String",
+      "Description": "Domain name of the redirected site"
+    },
+    "TargetLocation": {
+      "Type": "String",
+      "Description": "URL of the target redirect"
+    }
+  },
+  "Resources": {
+    "MyEndpoint": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "Runtime": "nodejs4.3",
+        "CodeUri": {
+          "Bucket": "cfn-api-gateway-custom-domain",
+          "Key": "example/index.zip"
+        },
+        "Environment": {
+          "Variables": {
+            "TARGET_LOCATION": "TargetLocation"
+          }
+        },
+        "Events": {
+          "get": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/",
+              "Method": "get",
+              "RestApiId": "MyAPI"
+            }
+          }
+        }
+      }
+    },
+    "MyAPI": {
+      "Type": "AWS::Serverless::Api",
+      "Properties": {
+        "StageName": "prod",
+        "DefinitionBody": {
+          "swagger": 2.0,
+          "paths": {
+            "/": {
+              "get": {
+                "x-amazon-apigateway-integration": {
+                  "httpMethod": "POST",
+                  "type": "aws_proxy",
+                  "uri": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MyEndpoint.Arn}/invocations"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "MyHostedZone": {
+      "Type": "AWS::Route53::HostedZone",
+      "Properties": {
+        "Name": "DomainName"
+      }
+    },
+    "ApiGatewayCustomDomain": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/cfn-api-gateway-custom-domain/stack.template",
+        "Parameters": {
+          "LetsEncryptAccountEmail": "me@jedschmidt.com",
+          "LetsEncryptAgreeTOS": true,
+          "LetsEncryptManualPublicIpLoggingOk": true
+        }
+      }
+    },
+    "MyDomain": {
+      "Type": "Custom::ApiGatewayCustomDomain",
+      "Properties": {
+        "ServiceToken": "ApiGatewayCustomDomain.Outputs.ServiceToken",
+        "HostedZoneId": "MyHostedZone",
+        "Subdomain": "www"
+      }
+    },
+    "MyDNSRecord": {
+      "Type": "AWS::Route53::RecordSetGroup",
+      "Properties": {
+        "HostedZoneId": "MyHostedZone",
+        "RecordSets": [
+          {
+            "Type": "A",
+            "Name": "MyDomain.domainName",
+            "AliasTarget": {
+              "HostedZoneId": "Z2FDTNDATAQYW2",
+              "DNSName": "MyDomain.distributionDomainName"
+            }
+          }
+        ]
+      }
+    },
+    "MyMapping": {
+      "Type": "AWS::ApiGateway::BasePathMapping",
+      "Properties": {
+        "DomainName": "MyDomain.domainName",
+        "RestApiId": "MyAPI",
+        "Stage": "prod"
+      }
+    }
+  }
+}
