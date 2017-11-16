@@ -35,12 +35,12 @@ let getVendorFormattedRegion = (resource, region) => {
     }[resource.provider][region]
 }
 
-module.exports = (configuration) => (action) => (tagName) => {
+module.exports = (callback, configuration) => (action) => (tagName) => {
     forEachResource(configuration, (resource) => {
         forEachRegionInResource(resource, region => {
             let cloudVendorSDK = getCloudVendorSDK(configuration, resource)
             let vendorFormattedRegion = getVendorFormattedRegion(resource, region)
-            runAction(action, resource)(cloudVendorSDK)(configuration, resource, vendorFormattedRegion, tagName)
+            runAction(action, resource)(callback)(cloudVendorSDK)(configuration, resource, vendorFormattedRegion, tagName)
         })
     })
 }

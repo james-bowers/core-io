@@ -1,6 +1,7 @@
 const getAwsRegion = (coreIoRegion) => {
     return {
-        "England": "eu-west-2"
+        "England": "eu-west-2",
+        "Ireland": "eu-west-1"
     }[coreIoRegion]
 }
 

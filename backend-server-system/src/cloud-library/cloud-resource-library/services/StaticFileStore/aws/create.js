@@ -7,7 +7,7 @@ const awsAccessControllValue = (coreIoAccessibilitySetting) => {
     }[coreIoAccessibilitySetting]
 }
 
-module.exports = (aws) => (configuration, resource, awsRegion, tagName) => {
+module.exports = (callback) => (aws) => (configuration, resource, awsRegion, tagName) => {
 
     let s3 = aws('s3')
 
@@ -25,10 +25,8 @@ module.exports = (aws) => (configuration, resource, awsRegion, tagName) => {
 
     let createBucketPromise = s3.createBucket(params).promise()
     createBucketPromise.then(data => {
-
-        // data: {Location: x}
+        callback(null, data)
     }).catch(e => {
-        console.log(err, err.stack);
-        throw e;
+        callback(e, null)
     })
 }
