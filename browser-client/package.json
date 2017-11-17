@@ -1,0 +1,50 @@
+{
+  "name": "core-io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=development npm-run-all --parallel start-server build-react",
+    "build-react": "webpack --watch",
+    "dev": "webpack-dev-server --watch --content-base src/dist --inline --hot ",
+    "test": "mocha ./src/test --timeout 10000 --recursive --compilers js:babel-core/register"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.4.5",
+    "babel-loader": "^6.2.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-preact": "^1.1.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^2.30.1",
+    "mocha": "^3.2.0",
+    "nock": "^9.0.13",
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.12.1",
+    "npm-run-all": "^4.1.1",
+    "path": "^0.12.7",
+    "sass-loader": "^6.0.6",
+    "sinon": "^2.2.0",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.4"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.18.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.4",
+    "moment": "^2.18.1",
+    "node-fetch": "^1.7.3",
+    "preact": "^8.2.5",
+    "preact-compat": "^3.17.0",
+    "preact-router": "^2.5.7",
+    "spectre.css": "^0.4.5"
+  }
+}
