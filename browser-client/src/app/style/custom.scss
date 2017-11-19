@@ -1,0 +1,23 @@
+body{
+    padding:30px;
+
+    main {
+        display: block;
+        margin: auto;
+        width:70%;
+        padding-top:30px;
+        box-sizing: border-box;
+    }
+
+    .btn-success{
+        background: green;
+        color:white;
+        border-color: green;
+    }
+
+    .btn-error {
+        background: red;
+        color:white;
+        border-color: red;
+    }
+}

@@ -1,8 +1,11 @@
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
 
-import Header from './components/stateless/Header'
+import { Header } from './components/stateless'
 import Home from './pages/Home'
+import SignUp from './pages/SignUp'
+import Projects from './pages/Projects'
+import Account from './pages/Account'
 
 export default class App extends Component {
 	/** Gets fired when the route changes.
@@ -15,11 +18,14 @@ export default class App extends Component {
 
     render() {
         return (
-            <div id="app">
+            <div>
                 <Header />
                 <main>
                     <Router onChange={this.handleRoute}>
                         <Home path="/" />
+                        <SignUp path="/sign-up" />
+                        <Account path="/account" />
+                        <Projects path="/projects" />
                     </Router>
                 </main>
             </div>

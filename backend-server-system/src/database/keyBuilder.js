@@ -15,10 +15,12 @@ let tag = (d) => project(d).concat([schema.tag, d.tagName])
 let resource = (d) => tag(d).concat([schema.resource, d.resourceId]) // each resource holds the 'live' deployment number
 
 module.exports = (d) => (type) =>  {
+    console.log('type', type)
     return {
         project,
         tag,
-        resource
+        resource,
+        account
     }[type](d)
 }
 

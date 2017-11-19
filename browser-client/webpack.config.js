@@ -8,15 +8,15 @@ const extractSass = new ExtractTextPlugin({
     disable: process.env.NODE_ENV === "development"
 });
 
-console.log(__dirname + '/src/dist')
-
 module.exports = {
+    devServer: {
+        historyApiFallback: true // always serves index.html
+    },
     devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
     entry: ['./src/app/index.js', './src/app/style/index.scss'],
     output: {
         path: __dirname + '/src/dist',
         filename: 'bundle.js'
-        // filename: './src/dist/bundle.js'
     },
     node: {
         dns: 'mock',

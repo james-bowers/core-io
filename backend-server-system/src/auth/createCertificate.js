@@ -10,11 +10,11 @@ const pem = {
 
 const privateRsaKey = require('./settings').privateRsaKey
 
-module.exports = (emailAddress, callback) => {
+module.exports = (emailAddress, password, callback) => {
     pem.createCSR({ emailAddress })
         .then(csr => pem.createCertificate({ days: 100, csr: csr.csr, serviceKey: privateRsaKey, selfSigned: true }))
         .then(pem => {
-            p.createPkcs12(pem.serviceKey, pem.certificate, 'chicken', {/* options */ }, callback)
+            p.createPkcs12(pem.serviceKey, pem.certificate, password, {/* options */ }, callback)
         })
 
 }

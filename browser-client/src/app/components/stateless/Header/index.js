@@ -4,7 +4,8 @@ import './header-style.scss'
 export default () => {
     return (
         <header>
-            <h1 id="example">core-io</h1>
+            <h4 id="example">core-io</h4>
+            <span>Intercloud deployment platform</span>
         </header>
     )
 }
