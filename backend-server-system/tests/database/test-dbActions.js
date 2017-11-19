@@ -15,7 +15,14 @@ describe('Tests db actions', () => {
                 return {
                     run: () => Promise.resolve({}),
                     insert: (entities) => {
-                        expect(entities).to.deep.equal([{ key: ['ran key method'], data: { exampleField: 'yes' } }])
+                        expect(entities).to.deep.equal([
+                            { 
+                                key: ['ran key method'], 
+                                data: { 
+                                    exampleField: 'yes',
+                                    _key: ['example', 'key']
+                                } 
+                            }])
                         return Promise.resolve({})
                     },
                     commit: () => Promise.resolve({})

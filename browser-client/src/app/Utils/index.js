@@ -16,5 +16,20 @@ module.exports = {
             'credentials': 'include',
             body: httpMethod === 'GET' ? undefined :  body
         })
+    },
+    download: (blob, fileName) => {
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement('a')
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    },
+    getKeyInformation: (key) => {
+        return {
+            fingerprint: key[1],
+            project: key[3],
+            tagId: key[5],
+        }
     }
 }

@@ -16,7 +16,8 @@ module.exports = {
     entry: ['./src/app/index.js', './src/app/style/index.scss'],
     output: {
         path: __dirname + '/src/dist',
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     node: {
         dns: 'mock',
@@ -45,7 +46,7 @@ module.exports = {
         extractSass, 
         new HtmlWebpackPlugin({
             // template: './src/app/index.ejs',
-            // minify: { collapseWhitespace: true }
+            minify: { collapseWhitespace: true },
         })
     ]
 }

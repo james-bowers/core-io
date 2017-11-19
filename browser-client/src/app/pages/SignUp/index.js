@@ -2,16 +2,8 @@ import { h, Component } from 'preact'
 
 import { Form } from './../../components/statefull'
 import { Input } from './../../components/stateless'
-import {api} from './../../Utils'
+import {api, download} from './../../Utils'
 
-function download (blob, fileName) {
-    let url = window.URL.createObjectURL(blob);
-    let a = document.createElement('a')
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
-}
 
 export default class _SignUp extends Component {
 
@@ -30,7 +22,7 @@ export default class _SignUp extends Component {
 
     render() {
         return (
-            <Form action="something" submitTxt="Sign Up" onSubmit={this.onSubmit}>
+            <Form action="sign-up" submitTxt="Sign Up" onSubmit={this.onSubmit}>
                 <Input label='Certificate password' id='password' placeholder='Password to open certificate once downloaded' />
                 <Input label='Email' id='email' placeholder='Your Email' />
             </Form>

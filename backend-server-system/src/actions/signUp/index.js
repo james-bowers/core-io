@@ -1,16 +1,17 @@
 let uuid = require('uuid')
 
-module.exports = ({ req, res }, cloudLibrary, database) => {
+module.exports = ({ fingerprint, req, res }, cloudLibrary, database) => {
 
     let accountKey = database.keyBuilder({
-        userId: uuid.v4()
+        userId: fingerprint
     })('account')
 
     let entities = [
         {
             key: accountKey,
             data: {
-                email: req.params.email
+                email: req.params.email,
+                userId: fingerprint
             }
         }
     ]

@@ -1,10 +1,31 @@
-module.exports = (request, cloudLibrary, db) => {
-    let { req, res } = request;
+const uuid = require('uuid')
 
-    // let callback = (err, data) => {
-    //     if (error) console.error(error, error.stack)
-    // }
+module.exports = ({fingerprint, req}, cloudLibrary, database) => {
+    let projectId = uuid.v4() 
+    let projectTitle = req.body.title
 
-    // create a serverless function
-    // cloudLibrary(params.projectConfiguration, callback)('resource')('create')('lambda-testing-tag-name')
+    let projectKey = database.keyBuilder({
+        userId:    fingerprint,
+        projectId: projectId
+    })('project')
+
+    let entities = [
+        {
+            key: projectKey,
+            data: {
+                title: projectTitle,
+            }
+        }
+    ]
+
+    let db = database.db()
+    return database.dbActions(db)('insert')(entities)
+    .then(dbResult => {
+        return {
+            title: projectTitle,
+            project: projectId,
+            localTestEnvironmentVariables: {},
+            resources: []
+        }
+    })
 }

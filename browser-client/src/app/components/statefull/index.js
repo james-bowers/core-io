@@ -1,4 +1,9 @@
 import Form from './Form'
+import ProjectList from './ProjectList'
+import ProjectInformation from './ProjectInformation'
+
 export {
-    Form
+    Form,
+    ProjectList,
+    ProjectInformation
 }

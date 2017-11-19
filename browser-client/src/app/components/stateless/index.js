@@ -4,6 +4,7 @@ import Empty from './empty'
 import Form from './form'
 import Button from './button'
 import Anchor from './anchor'
+import Section from './section'
 
 export {
     Header,
@@ -11,5 +12,6 @@ export {
     Empty,
     Form,
     Button,
-    Anchor
+    Anchor,
+    Section
 }

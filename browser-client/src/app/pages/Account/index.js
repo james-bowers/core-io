@@ -5,14 +5,14 @@ export default class _Account extends Component {
 
     constructor(){
         super()
-        this.state = { certInfo: undefined }
+        this.state = { userInformation: undefined }
     }
 
     componentDidMount(){
         api('GET', '/account', {})
         .then(response => response.json())
         .then(response => {
-            this.setState({certInfo: response})
+            this.setState({ userInformation: response})
         })
     }
 
@@ -21,9 +21,9 @@ export default class _Account extends Component {
             <div>
                 <h1>Account</h1>
                 <h3>Email</h3>
-                <p>{this.state.certInfo.subject.emailAddress}</p>
+                <p>{this.state.userInformation.cert.emailAddress}</p>
                 <h3>Certificate</h3>
-                <p>The certificate currently in use expires on the {this.state.certInfo.valid_to}</p>
+                <p>The certificate currently in use expires on the {this.state.userInformation.cert.valid_to}</p>
             </div>
         )
     }
@@ -35,6 +35,6 @@ export default class _Account extends Component {
     }
 
     render() {
-        return this.state.certInfo ? this.renderFull() : this.renderLoading()
+        return this.state.userInformation ? this.renderFull() : this.renderLoading()
     }
 }

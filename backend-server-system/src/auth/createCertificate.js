@@ -14,7 +14,12 @@ module.exports = (emailAddress, password, callback) => {
     pem.createCSR({ emailAddress })
         .then(csr => pem.createCertificate({ days: 100, csr: csr.csr, serviceKey: privateRsaKey, selfSigned: true }))
         .then(pem => {
-            p.createPkcs12(pem.serviceKey, pem.certificate, password, {/* options */ }, callback)
+            
+            p.getFingerprint(pem.certificate, (err, fingerprint) => {
+                
+                // create p12
+                p.createPkcs12(pem.serviceKey, pem.certificate, password, {/* options */ }, callback(fingerprint.fingerprint))
+            })
         })
 
 }

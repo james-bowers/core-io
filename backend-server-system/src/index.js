@@ -3,11 +3,15 @@ let database = require('./database')
 let actions = require('./actions')
 let { createCertificate } = require('./auth')
 var bodyParser = require('body-parser')
-
+let pem = require('pem')
 const express = require('express')
 
 const app = express()
 
+const getFingerPrintFromCert = (req) => {
+    var cert = req.connection.getPeerCertificate();
+    return cert.fingerprint
+}
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -27,8 +31,60 @@ app.get('/', (req, res) => {
 })
 
 app.get('/account', (req, res, next) => {
-    var cert = req.connection.getPeerCertificate();
-    res.send(cert)
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.getMe({ fingerprint }, cloudLibrary, database)
+    .then(dbResult => {
+
+        let cert = req.connection.getPeerCertificate();
+        let user = dbResult[0][0] // get the first result object
+        res.send({
+            cert: { valid_from: cert.valid_from, valid_to: cert.valid_to, emailAddress: cert.subject.emailAddress},
+            user: user
+        })
+    })
+})
+
+app.get('/get-projects', (req, res) => {
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.getProjects({ fingerprint }, cloudLibrary, database)
+    .then(dbResult => {
+        console.log('dbResult', dbResult)
+        res.send({
+            projects: dbResult[0]
+        })
+    })
+})
+
+app.post('/create-project', (req, res) => {
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.createProject({req, fingerprint}, cloudLibrary, database)
+        .then(projectConfig => {
+            res.send({ projectConfig })
+    })
+})
+
+app.post('/create-project-tag', (req, res) => {
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.createProjectTag({ req, fingerprint }, cloudLibrary, database)
+        .then(createStatus => {
+            res.send({ createStatus })
+        })
+})
+
+app.get('/get-project/:project', (req, res) => {
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.getProject({ req, fingerprint }, cloudLibrary, database)
+        .then(dbResult => {
+            res.send({ project: dbResult[0][0] })
+        })
+})
+
+app.get('/get-tags-for-project/:project', (req, res) => {
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.getTagsForProject({ req, fingerprint }, cloudLibrary, database)
+        .then(dbResult => {
+            res.send({ tags: dbResult[0] })
+        })
 })
 
 app.post('/sign-up', (req, res) => {
@@ -36,21 +92,22 @@ app.post('/sign-up', (req, res) => {
     let emailAddress = req.body.email;
     let password = req.body.password;
 
-    actions.signUp({ req, res }, cloudLibrary, database)
-    .then(dbResult => {
+    createCertificate(emailAddress, password, fingerprint => (err, pkcs12StringBuffer) => {
 
-        // no db error, so create the user's certificate and force download it for the user
-        createCertificate(emailAddress, password,  (err, pkcs12StringBuffer) => {
-            res.writeHead(200, {
-                'Content-disposition': `attachment;filename=${emailAddress}-core-io.p12`,
-            });
-            res.end(pkcs12StringBuffer.pkcs12);
-        })
+        actions.signUp({ fingerprint, req, res }, cloudLibrary, database)
+            .then(dbResult => {
 
-    }).catch(error => {
-        res.send('Failed to create your account.')
+                res.writeHead(200, {
+                    'Content-disposition': `attachment;filename=${emailAddress}-core-io.p12`,
+                });
+
+                res.end(pkcs12StringBuffer.pkcs12);                
+
+            }).catch(error => {
+
+                res.send('Failed to create your account.')
+            })
     })
-
 })
 
 module.exports = app

@@ -8,7 +8,7 @@ describe('Tests key builders for DB', () => {
     it('builds the project key', done => {
 
         let data = {
-            project: 'example-project-id',
+            projectId: 'example-project-id',
             userId: 'user-id'
         }
 
@@ -25,8 +25,8 @@ describe('Tests key builders for DB', () => {
     it('builds the tag key', done => {
 
         let data = {
-            project: 'example-project-id',
-            tagName: 'tag-for-system-version',
+            projectId: 'example-project-id',
+            tagId: 'tag-for-system-version',
             userId: 'user-id'
         }
 
@@ -45,8 +45,8 @@ describe('Tests key builders for DB', () => {
     it('builds the resource key', done => {
 
         let data = {
-            project: 'example-project-id',
-            tagName: 'tag-for-system-version',
+            projectId: 'example-project-id',
+            tagId: 'tag-for-system-version',
             resourceId: 'fb325740-d26f-422e-8db6-a1f326172c5c',
             userId: 'user-id'
         }
