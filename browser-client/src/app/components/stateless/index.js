@@ -5,6 +5,8 @@ import Form from './form'
 import Button from './button'
 import Anchor from './anchor'
 import Section from './section'
+import ProjectForm from './projectForm'
+import TagForm from './tagForm'
 
 export {
     Header,
@@ -13,5 +15,7 @@ export {
     Form,
     Button,
     Anchor,
-    Section
+    Section,
+    ProjectForm,
+    TagForm
 }

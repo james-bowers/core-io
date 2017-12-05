@@ -1,8 +1,7 @@
 import { h, Component } from 'preact'
 
 import { api, download } from './../../Utils'
-import {Form} from './../../components/statefull'
-import { Input, Button } from './../../components/stateless'
+import { Button, ProjectForm } from './../../components/stateless'
 
 export default class _CreateProject extends Component {
 
@@ -30,14 +29,6 @@ export default class _CreateProject extends Component {
         })
     }
 
-    renderCreateForm(){
-        return (
-            <Form action="create-project" submitTxt="Create" onSubmit={this.onSubmit}>
-                <Input label='Project name' id='title' placeholder='Name of the new project' />
-            </Form>
-        )
-    }
-
     downloadConfig(){
         let configAsBlob = new Blob([this.readableConfig()], { type: "application/json" });
         download(configAsBlob, 'config.core-io.json')
@@ -61,6 +52,6 @@ export default class _CreateProject extends Component {
     }
 
     render() {
-        return this.state.created ? this.renderProjectConfigFile() : this.renderCreateForm()
+        return this.state.created ? this.renderProjectConfigFile() : <ProjectForm value="" onSubmit={this.onSubmit} />
     }
 }

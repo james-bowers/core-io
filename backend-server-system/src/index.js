@@ -48,7 +48,6 @@ app.get('/get-projects', (req, res) => {
     let fingerprint = getFingerPrintFromCert(req)
     actions.getProjects({ fingerprint }, cloudLibrary, database)
     .then(dbResult => {
-        console.log('dbResult', dbResult)
         res.send({
             projects: dbResult[0]
         })
@@ -76,6 +75,22 @@ app.get('/get-project/:project', (req, res) => {
     actions.getProject({ req, fingerprint }, cloudLibrary, database)
         .then(dbResult => {
             res.send({ project: dbResult[0][0] })
+        })
+})
+
+app.get('/get-tag/project/:project/tag/:tagId', (req, res) => {
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.getTag({ req, fingerprint }, cloudLibrary, database)
+        .then(dbResult => {
+            res.send({ tag: dbResult[0][0] })
+        })
+})
+
+app.post('/update-tag/project/:project/tag/:tagId', (req, res) => {
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.updateTag({ req, fingerprint }, cloudLibrary, database)
+        .then(dbResult => {
+            res.send({ error: false })
         })
 })
 

@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { Form } from './../../stateless'
+import { Form, ProjectForm } from './../../stateless'
 
 import {api} from './../../../Utils'
 
@@ -7,6 +7,8 @@ export default class _ProjectInformation extends Component {
     constructor(){
         super()
         this.state = { project: undefined }
+
+        this.readAbleProjectConfiguration = this.readAbleProjectConfiguration.bind(this)
     }
 
     componentWillMount(){
@@ -17,8 +19,16 @@ export default class _ProjectInformation extends Component {
         })
     }
 
+    readAbleProjectConfiguration(){
+        return JSON.stringify(this.state.project.project)
+    }
+
     renderFull(){
-        return <h1>Project {this.state.project.title}</h1>
+        return (
+            <div>
+                <h1>Project {this.state.project.title}</h1>
+            </div>
+        )
     }
 
     render(){

@@ -9,6 +9,7 @@ import Account from './pages/Account'
 import CreateProject from './pages/CreateProject'
 import ManageProject from './pages/ManageProject'
 import CreateTag from './pages/CreateTag'
+import ManageTag from './pages/ManageTag'
 
 export default class App extends Component {
 	/** Gets fired when the route changes.
@@ -32,6 +33,7 @@ export default class App extends Component {
                         <ManageProject path="/project/:project" />
                         <CreateProject path="/create-project" />
                         <CreateTag path="/create-tag/:project" />
+                        <ManageTag path="/project/:project/tag/:tagId" />
                     </Router>
                 </main>
             </div>

@@ -66,6 +66,7 @@ export default class _ManageProject extends Component {
 
 
     render(props) {
+        console.log('this.state', this.state)
         return this.state.loaded ? this.renderDecision() : <p>Loading...</p>
     }
 }

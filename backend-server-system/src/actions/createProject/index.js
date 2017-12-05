@@ -13,7 +13,7 @@ module.exports = ({fingerprint, req}, cloudLibrary, database) => {
         {
             key: projectKey,
             data: {
-                title: projectTitle,
+                title: projectTitle
             }
         }
     ]
@@ -24,7 +24,7 @@ module.exports = ({fingerprint, req}, cloudLibrary, database) => {
         return {
             title: projectTitle,
             project: projectId,
-            localTestEnvironmentVariables: {},
+            environmentVariables: {},
             resources: []
         }
     })

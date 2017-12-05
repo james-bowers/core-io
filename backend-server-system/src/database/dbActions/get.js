@@ -1,0 +1,1 @@
+module.exports = (db) => (keysInArrFmt) => db.get(keysInArrFmt.map(idArr => db.key(idArr)));

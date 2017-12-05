@@ -1,4 +1,4 @@
-let insert = (db) => (entities) => {
+module.exports = (db) => (entities) => {
 
     const transaction = db.transaction()
 
@@ -18,18 +18,4 @@ let insert = (db) => (entities) => {
             transaction.rollback()
             throw e
         })
-}
-
-let get = (db) => (keysInArrFmt) => db.get(keysInArrFmt.map(idArr => db.key(idArr)));
-
-let query = (db) => (createQueryFunc) => {
-    return db.runQuery(createQueryFunc())
-};
-
-module.exports = (db) => (type) => {
-    return {
-        insert,
-        get,
-        query
-    }[type](db)
 }
