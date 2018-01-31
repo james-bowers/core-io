@@ -46,7 +46,7 @@ let Select = (props) => {
     )
 }
 
-let Textarea = (props) => (<textarea class="form-input" {...props}>{props.value}</textarea>)
+let Textarea = (props) => (<textarea rows="15" class="form-input" {...props}>{props.value}</textarea>)
 
 export default (props) => {
     switch (props.type) {

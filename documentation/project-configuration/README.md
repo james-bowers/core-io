@@ -17,7 +17,7 @@ By using a proxy, latency based routing rules can be managed for just one domain
 
 ## Project configuration
 Each project will store:
-- AWS & GCP access keys
+- AWS & GCP access keys (REMOVED AS RESEARCH SHOWED THAT USERS WOULDN'T BE COMFORTABLE SHARING ACCESS KEYS TO THEIR ENTIRE CLOUD PLATFORM - UNDERSTANDABLY, TRUST IS AN ISSUE)
 - User email address, one-to-many relationship with projects
 - Environment variables for the live environment
 - A tag (so same application can be duplicated for different environments)

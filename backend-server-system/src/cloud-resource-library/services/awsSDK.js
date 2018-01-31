@@ -1,7 +1,8 @@
-// return a configured AWS sdk
 let AWS = require('aws-sdk')
 
-const getAwsConfig = (cloudAccessCredentials) => {
+let cloudAccessCredentials = require('./cloud-credentials.json')
+
+const getAwsConfig = () => {
 
     let accessKeyId = cloudAccessCredentials.accessKeyId
     let secretAccessKey = cloudAccessCredentials.secretAccessKey
@@ -15,10 +16,8 @@ const getAwsConfig = (cloudAccessCredentials) => {
     return awsConfig
 }
 
-
-
-module.exports = (configuration) => (service) => {    
-    let awsConfig = getAwsConfig(configuration.cloudAccessCredentials)
+module.exports = (service) => {
+    let awsConfig = getAwsConfig()
     return {
         s3: new AWS.S3(awsConfig),
         cf: (region) => {

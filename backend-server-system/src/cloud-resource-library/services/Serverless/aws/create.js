@@ -5,7 +5,7 @@ let getTemplateBody = (bucketName, resourceName, environmentVariables, runTime) 
     return JSON.stringify(template, null, 2)
 }
 
-module.exports = (callback) => (aws) => (configuration, resource, awsRegion, tagName) => {
+module.exports = (aws, configuration, resource, awsRegion, tagName) => {
 
     let projectId = getProjectId(configuration)
     let resourceName = buildResourceName(projectId, tagName, awsRegion, resource.id)
@@ -16,7 +16,7 @@ module.exports = (callback) => (aws) => (configuration, resource, awsRegion, tag
 
     let stackName = `stack-${resourceName}`
     let changeSetName = `change-${resourceName}`
-    let params = {
+    let createChangeSetParams = {
         StackName: changeSetName,
         ChangeSetName: changeSetName,
         ChangeSetType: "CREATE",
@@ -35,25 +35,19 @@ module.exports = (callback) => (aws) => (configuration, resource, awsRegion, tag
         Capabilities: ["CAPABILITY_IAM"]
     }
 
-    cloudformation.createChangeSet(params, (err, data) => {
-        if (err){ 
-            callback(err, null)
-        } else {
-            var params = {
+    return cloudformation.createChangeSet(createChangeSetParams).promise()
+        .then(data => {
+
+            var executeStackChangeParams = {
                 ChangeSetName: changeSetName,
                 StackName: data.StackId
             };
-            
+
             // wait for the change set to be created
-            cloudformation.waitFor('changeSetCreateComplete', params, function (err, data) {
-                if(err){
-                    callback(err, null)
-                } else {
-                    // execute the change set if no error encountered
-                    cloudformation.executeChangeSet({ StackName: data.StackId, ChangeSetName: data.ChangeSetName }, callback);
-                }
-            });
-        }
-    });
+            return cloudformation.waitFor('changeSetCreateComplete', executeStackChangeParams).promise()
+
+        }).then(changeSetData => {
+            return cloudformation.executeChangeSet({ StackName: changeSetData.StackId, ChangeSetName: changeSetData.ChangeSetName }).promise()
+        })
 
 }

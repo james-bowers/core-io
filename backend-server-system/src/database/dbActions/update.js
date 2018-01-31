@@ -20,8 +20,6 @@ const updateFunctionality = (transaction, key, data) => {
         })
 }
 
-
-
 module.exports = (db) => (entity) => {
 
     const transaction = db.transaction()

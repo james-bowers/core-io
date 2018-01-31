@@ -1,8 +1,14 @@
-const getAwsRegion = (coreIoRegion) => {
+let getVendorFormattedRegion = (resource, region) => {
     return {
-        "England": "eu-west-2",
-        "Ireland": "eu-west-1"
-    }[coreIoRegion]
+        "AWS": {
+            "England": "eu-west-2",
+            "Ireland": "eu-west-1"
+        },
+        "GCP": {
+            "England": "europe-west2",
+            "Ireland": "eu-west-1"
+        }
+    }[resource.provider][region]
 }
 
 const buildResourceName = (projectId, tagName, region, resourceId) => {
@@ -14,7 +20,7 @@ const buildResourceName = (projectId, tagName, region, resourceId) => {
 const getProjectId = (configuration) => configuration.projectConfiguration.project
 
 module.exports = {
-    getAwsRegion,
+    getVendorFormattedRegion,
     buildResourceName,
     getProjectId
 }

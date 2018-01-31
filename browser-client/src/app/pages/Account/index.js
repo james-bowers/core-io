@@ -17,6 +17,7 @@ export default class _Account extends Component {
     }
 
     renderFull(){
+        console.log(this.state.userInformation)
         return (
             <div>
                 <h1>Account</h1>

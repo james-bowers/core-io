@@ -1,6 +1,6 @@
 import { h, Component } from 'preact'
 import { api, getKeyInformation } from './../../Utils'
-import { TagForm } from '../../components/stateless/index';
+import { TagForm, ResourceList } from '../../components/stateless';
 // import { Empty, Button, Anchor, Section } from './../../components/stateless'
 
 export default class _ManageTag extends Component {
@@ -45,19 +45,26 @@ export default class _ManageTag extends Component {
         values.project = this.props.matches.project
         values.config = JSON.parse(values.config)
 
-        return api('POST', `/update-tag/project/${matches.project}/tag/${matches.tagId}`, values)
-            .then(response => response.json())
-    
+        return api('POST', `/update-tag/project/${matches.project}/tag/${matches.tagId}`, values).then(response => response.json())
     }
 
     renderFull(){
         return (
-            <TagForm action="update-project-tag" submitTxt="Update tag" onSubmit={this.onUpdateTag} tagName={this.state.tag.title} config={this.getConfiguration()} />
+            <div>
+                <TagForm 
+                    action="update-project-tag" 
+                    submitTxt="Update tag" 
+                    onSubmit={this.onUpdateTag} 
+                    tagName={this.state.tag.title} 
+                    config={this.getConfiguration()} 
+                    />
+                <h3>Resources</h3>
+                <ResourceList config={this.state.tag.configuration} />
+            </div>
         )
     }
 
     render(props) {
-        console.log('this.state', this.state)
         return this.state.loaded ? this.renderFull() : <p>loading</p>
     }
 }

@@ -7,8 +7,10 @@ import Anchor from './anchor'
 import Section from './section'
 import ProjectForm from './projectForm'
 import TagForm from './tagForm'
+import ResourceList from './resourceList'
 
 export {
+    ResourceList,
     Header,
     Input,
     Empty,

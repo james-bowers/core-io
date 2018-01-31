@@ -14,7 +14,7 @@ module.exports = ({ req, fingerprint }, cloudLibrary, database) => {
     })('tag')
 
     let entity = {
-        title: req.params.tagName,
+        title: tagName,
         configuration: configuration,
         _key: tagKey
     }
