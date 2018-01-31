@@ -1,5 +1,4 @@
-const uuid = require('uuid'),
-      cloudLibrary = require('./../../cloud-library')
+const uuid = require('uuid')
 
 const buildResources = (configuration, entities, tagName) => {
 

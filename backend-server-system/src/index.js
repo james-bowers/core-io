@@ -1,4 +1,4 @@
-let cloudLibrary = require('./cloud-library')
+let cloudLibrary = require('./cloud-resource-library')
 let database = require('./database')
 let actions = require('./actions')
 let { createCertificate } = require('./auth')
@@ -33,25 +33,25 @@ app.get('/', (req, res) => {
 app.get('/account', (req, res, next) => {
     let fingerprint = getFingerPrintFromCert(req)
     actions.getMe({ fingerprint }, cloudLibrary, database)
-    .then(dbResult => {
+        .then(dbResult => {
 
-        let cert = req.connection.getPeerCertificate();
-        let user = dbResult[0][0] // get the first result object
-        res.send({
-            cert: { valid_from: cert.valid_from, valid_to: cert.valid_to, emailAddress: cert.subject.emailAddress},
-            user: user
+            let cert = req.connection.getPeerCertificate();
+            let user = dbResult[0][0] // get the first result object
+            res.send({
+                cert: { valid_from: cert.valid_from, valid_to: cert.valid_to, emailAddress: cert.subject.emailAddress},
+                user: user
+            })
         })
-    })
 })
 
 app.get('/get-projects', (req, res) => {
     let fingerprint = getFingerPrintFromCert(req)
     actions.getProjects({ fingerprint }, cloudLibrary, database)
-    .then(dbResult => {
-        res.send({
-            projects: dbResult[0]
+        .then(dbResult => {
+            res.send({
+                projects: dbResult[0]
+            })
         })
-    })
 })
 
 app.post('/create-project', (req, res) => {
@@ -59,7 +59,7 @@ app.post('/create-project', (req, res) => {
     actions.createProject({req, fingerprint}, cloudLibrary, database)
         .then(projectConfig => {
             res.send({ projectConfig })
-    })
+        })
 })
 
 app.post('/create-project-tag', (req, res) => {
