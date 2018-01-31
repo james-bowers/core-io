@@ -40,6 +40,9 @@ module.exports = ({ fingerprint, req }, cloudLibrary, database) => {
     return buildResources(cloudLibrary, configuration, tagName)
         .then(x => database.dbActions(db)('insert')(entities))
         .then(dbResult => {
-            return { error: false }
+            return { 
+                error: false,
+                configuration
+            }
         })
 }
