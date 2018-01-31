@@ -1,0 +1,19 @@
+{
+    "project": "aws-serverless",
+    "localTestEnvironmentVariables": {},
+    "resources": [
+        {
+            "id": "HelloWorldApp",
+            "provider": "AWS",
+            "service": "Serverless",
+            "regions": [
+                "England"
+            ],
+            "properties": {
+                "directory": "./HelloWorldApp",
+                "entry": "index.js",
+                "language": "nodejs6.10"
+            }
+        }
+    ]
+}
