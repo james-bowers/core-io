@@ -17,10 +17,7 @@ const buildResourceName = (projectId, tagName, region, resourceId) => {
     return `${projectId}-${region}-${lowerCaseResourceId}-${lowerCaseTagName}`
 }
 
-const getProjectId = (configuration) => configuration.projectConfiguration.project
-
 module.exports = {
     getVendorFormattedRegion,
-    buildResourceName,
-    getProjectId
+    buildResourceName
 }

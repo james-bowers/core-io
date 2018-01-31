@@ -6,7 +6,7 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
 
     // let s3 = aws('s3')
 
-    // let projectId = helper.getProjectId(configuration)
+    // let projectId = configuration.project
 
     // let bucketName = helper.buildResourceName(projectId, tagName, awsRegion, resource.id)
 

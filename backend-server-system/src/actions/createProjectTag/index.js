@@ -1,19 +1,17 @@
 const uuid = require('uuid')
 
-const buildResources = (configuration, entities, tagName) => {
+const buildResources = (cloudLibrary, configuration, tagName) => {
 
-    // TODO: iterate through the configuration, creating cloud resources, 
-    // and then add to `entities` to store data about each resource in the db
+    return cloudLibrary(configuration)('create', tagName).then(createResult => {
 
+        // add the creation information to the project config
+        // to store in the DB
+        configuration.resources.forEach(resource => {
+            resource.cloudVendorInformation = createResult[resource.id]
+        })
 
-
-    // projectConfiguration, resultAction
-
-    // return cloudLibrary(configuration)('resource').then(result => {
-    //     console.log('cloud result', result)
-    // }) 
-
-    return Promise.resolve({})
+        return createResult
+    })
 }
 
 module.exports = ({ fingerprint, req }, cloudLibrary, database) => {
@@ -33,13 +31,13 @@ module.exports = ({ fingerprint, req }, cloudLibrary, database) => {
             key: tagKey,
             data: {
                 title: tagName,
-                configuration: configuration
+                configuration
             }
         }
     ]
 
     let db = database.db()
-    return buildResources(configuration, entities, tagName)
+    return buildResources(cloudLibrary, configuration, tagName)
         .then(x => database.dbActions(db)('insert')(entities))
         .then(dbResult => {
             return { error: false }

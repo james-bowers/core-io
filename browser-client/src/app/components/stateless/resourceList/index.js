@@ -7,8 +7,13 @@ let deployResource = (resource) => () => {
 }
 
 export default ({ config }) => {
+
+    console.log('resource list config', config)
+
+    if (!config.resources) return ''
     return (
         <div>
+            <h3>Resources</h3>
             {config.resources.map(resource => {
                 return (
                     <Section>

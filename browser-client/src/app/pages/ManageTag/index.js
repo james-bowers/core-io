@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import { api, getKeyInformation } from './../../Utils'
 import { TagForm, ResourceList } from '../../components/stateless';
-// import { Empty, Button, Anchor, Section } from './../../components/stateless'
+import { Section } from './../../components/stateless'
 
 export default class _ManageTag extends Component {
 
@@ -42,10 +42,11 @@ export default class _ManageTag extends Component {
         return (
             <div>
                 <h3>Configuration</h3>
-                <pre class="code" data-lang="JSON">
-                    {this.getConfiguration()}
-                </pre>
-                <h3>Resources</h3>
+                <Section>
+                    <pre class="code" data-lang="JSON">
+                        {this.getConfiguration()}
+                    </pre>
+                </Section>
                 <ResourceList config={this.state.tag.configuration} />
             </div>
         )

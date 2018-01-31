@@ -11,7 +11,7 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
 
     let s3 = aws('s3')
 
-    let projectId = helper.getProjectId(configuration)
+    let projectId = configuration.project
 
     let bucketName = helper.buildResourceName(projectId, tagName, awsRegion, resource.id)
 
@@ -23,5 +23,9 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
         }
     }
 
-    return s3.createBucket(params).promise()
+    return s3.createBucket(params).promise().then(result => {
+        return {
+            bucket: bucketName
+        }
+    })
 }
