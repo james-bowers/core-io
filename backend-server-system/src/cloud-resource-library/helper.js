@@ -1,3 +1,5 @@
+const uuid = require('uuid')
+
 let getVendorFormattedRegion = (resource, region) => {
     return {
         "AWS": {
@@ -6,7 +8,7 @@ let getVendorFormattedRegion = (resource, region) => {
         },
         "GCP": {
             "England": "europe-west2",
-            "Ireland": "eu-west-1"
+            "Belgium": "europe-west1"
         }
     }[resource.provider][region]
 }
@@ -17,7 +19,10 @@ const buildResourceName = (projectId, tagName, region, resourceId) => {
     return `${projectId}-${region}-${lowerCaseResourceId}-${lowerCaseTagName}`
 }
 
+const genId = () => uuid.v4()
+
 module.exports = {
     getVendorFormattedRegion,
-    buildResourceName
+    buildResourceName,
+    genId
 }

@@ -1,0 +1,32 @@
+{
+    "project": "multi-region-multi-provider-public-buckets",
+    "localTestEnvironmentVariables": {},
+    "resources": [
+        {
+            "id": "Images",
+            "provider": "GCP",
+            "service": "StaticFileStore",
+            "regions": [
+                "England",
+                "Belgium"
+            ],
+            "properties": {
+                "directory": "./images",
+                "accessibility": "public"
+            }
+        },
+        {
+            "id": "Images",
+            "provider": "AWS",
+            "service": "StaticFileStore",
+            "regions": [
+                "England",
+                "Ireland"
+            ],
+            "properties": {
+                "directory": "./images",
+                "accessibility": "public"
+            }
+        }
+    ]
+}

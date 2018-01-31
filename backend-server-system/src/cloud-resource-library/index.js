@@ -24,7 +24,7 @@ let forEachRegionInResource = (resource, funcToRun) => {
 let getCloudVendorSDK = (resource) => {
     return {
         "AWS": awsSdk,
-        "GCP": undefined
+        "GCP": gcpSDK
     }[resource.provider]
 }
 

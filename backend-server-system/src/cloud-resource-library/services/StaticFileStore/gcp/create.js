@@ -1,25 +1,30 @@
+const helper = require('./../../../helper')
+
 module.exports = (gcp, configuration, resource, gcpRegion, tagName) => {
 
     let storage = gcp('Storage')
 
-    // create the GCP bucket
+    let projectId = configuration.project
 
-    // return storage
-    //     .getBuckets()
-    //     .then((results) => {
-    //         const buckets = results[0];
+    let bucketName = helper.genId()
 
-    //         console.log('Buckets:');
-    //         buckets.forEach((bucket) => {
-    //             console.log(bucket.name);
-    //         });
+    let bucket = storage.bucket(bucketName);
 
-    //         return {}
-    //     })
-    //     .catch((err) => {
-    //         console.error('ERROR:', err);
+    let createBucketOptions = {
+        multiRegional: false,
+        location: gcpRegion,
+    }
 
-    //         callback(err, null)
-    //     });
-    
+    return bucket.create(createBucketOptions).then(bucketResult => {
+        
+        if (resource.properties.accessibility === 'public') {
+            return bucket.makePublic()
+        }
+        
+    }).then(() => {
+        return {
+            bucket: bucketName
+        }
+    })
+
 }

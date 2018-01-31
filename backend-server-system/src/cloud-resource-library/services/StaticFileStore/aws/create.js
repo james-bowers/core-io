@@ -13,7 +13,7 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
 
     let projectId = configuration.project
 
-    let bucketName = helper.buildResourceName(projectId, tagName, awsRegion, resource.id)
+    let bucketName = helper.genId()
 
     var params = {
         Bucket: bucketName,
