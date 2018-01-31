@@ -29,7 +29,7 @@ let getCloudVendorSDK = (resource) => {
 }
 
 // action could be: [create, deploy]
-module.exports = (projectConfig) => (action, tagName) => {
+module.exports = (projectConfig) => (action, tagName, options = {}) => {
     
     let configuration = { projectConfig, credentials }
     
@@ -42,7 +42,7 @@ module.exports = (projectConfig) => (action, tagName) => {
 
             let action = runAction(action, resource)
             promisedActions.push(
-                action(cloudVendorSDK, configuration, resource, vendorFormattedRegion, tagName)
+                action(cloudVendorSDK, configuration, resource, vendorFormattedRegion, tagName, options)
             )
         })
     })

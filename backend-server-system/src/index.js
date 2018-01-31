@@ -86,14 +86,6 @@ app.get('/get-tag/project/:project/tag/:tagId', (req, res) => {
         })
 })
 
-app.post('/update-tag/project/:project/tag/:tagId', (req, res) => {
-    let fingerprint = getFingerPrintFromCert(req)
-    actions.updateTag({ req, fingerprint }, cloudLibrary, database)
-        .then(dbResult => {
-            res.send({ error: false })
-        })
-})
-
 app.get('/get-tags-for-project/:project', (req, res) => {
     let fingerprint = getFingerPrintFromCert(req)
     actions.getTagsForProject({ req, fingerprint }, cloudLibrary, database)

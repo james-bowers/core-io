@@ -13,7 +13,6 @@ export default class _ManageTag extends Component {
 
         this.renderFull = this.renderFull.bind(this)
         this.getConfiguration = this.getConfiguration.bind(this)
-        this.onUpdateTag = this.onUpdateTag.bind(this)
     }
 
     componentDidMount(props) {
@@ -39,25 +38,13 @@ export default class _ManageTag extends Component {
         return JSON.stringify(this.state.tag.configuration, null, 2)
     }
 
-    onUpdateTag(values){
-        let { matches } = this.props
-
-        values.project = this.props.matches.project
-        values.config = JSON.parse(values.config)
-
-        return api('POST', `/update-tag/project/${matches.project}/tag/${matches.tagId}`, values).then(response => response.json())
-    }
-
     renderFull(){
         return (
             <div>
-                <TagForm 
-                    action="update-project-tag" 
-                    submitTxt="Update tag" 
-                    onSubmit={this.onUpdateTag} 
-                    tagName={this.state.tag.title} 
-                    config={this.getConfiguration()} 
-                    />
+                <h3>Configuration</h3>
+                <pre class="code" data-lang="JSON">
+                    {this.getConfiguration()}
+                </pre>
                 <h3>Resources</h3>
                 <ResourceList config={this.state.tag.configuration} />
             </div>

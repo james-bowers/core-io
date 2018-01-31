@@ -6,6 +6,5 @@ module.exports = {
     getTagsForProject: require('./getTagsForProject'),
     createProjectTag: require('./createProjectTag'),
     getProject: require('./getProject'),
-    getTag: require('./getTag'),
-    updateTag: require('./updateTag')
+    getTag: require('./getTag')
 }
