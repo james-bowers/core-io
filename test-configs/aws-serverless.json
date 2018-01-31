@@ -12,7 +12,7 @@
             "properties": {
                 "directory": "./HelloWorldApp",
                 "entry": "index.js",
-                "language": "nodejs6.10"
+                "language": "nodejs"
             }
         }
     ]

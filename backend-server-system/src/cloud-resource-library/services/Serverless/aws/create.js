@@ -5,6 +5,12 @@ let getTemplateBody = (bucketName, environmentVariables, runTime) => {
     return JSON.stringify(template, null, 2)
 }
 
+let getRuntime = (language) => {
+    return {
+        'nodejs': 'nodejs6.10'
+    }[language]
+}
+
 module.exports = (aws, configuration, resource, awsRegion, tagName) => {
 
     let projectId = configuration.project
@@ -14,8 +20,8 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
     // generic serverless function code
     let codeBucketName = 'serverless-core-io'
 
-    let stackName = helper.genId() // `stack-${resourceName}`
-    let changeSetName = helper.genId() // `change-${resourceName}`
+    let stackName = 'stack-' + helper.genId()
+    let changeSetName = 'change-' + helper.genId()
     let createChangeSetParams = {
         StackName: changeSetName,
         ChangeSetName: changeSetName,
@@ -29,7 +35,7 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
         TemplateBody: getTemplateBody(
             codeBucketName,
             configuration.environmentVariables || {}, 
-            resource.properties.language
+            getRuntime(resource.properties.language)
         ),
         Capabilities: ["CAPABILITY_IAM"]
     }
@@ -45,16 +51,26 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
             // wait for the change set to be created
             return cloudformation.waitFor('changeSetCreateComplete', executeStackChangeParams).promise()
 
-        }).then(changeSetData => {
-            return cloudformation.executeChangeSet({ StackName: changeSetData.StackId, ChangeSetName: changeSetData.ChangeSetName }).promise()
-        }).then(changeSetResult => {
+        }).then(changeSetCompleteData => {
 
-            console.log('changeSetResult', changeSetResult)
-
-            return {
-                changeSetName,
-                stackName
+            if (changeSetCompleteData.Status !== "CREATE_COMPLETE"){
+                throw new Error('Lambda creation failure' + changeSetCompleteData.Status)
             }
+
+            // execute then wait for completion 
+            return cloudformation.executeChangeSet({ 
+                StackName: changeSetCompleteData.StackId, 
+                ChangeSetName: changeSetCompleteData.ChangeSetName 
+            }).promise().then(() => {
+
+                // data to be stored with resource
+                return {
+                    stackName: stackName,
+                    stackId: changeSetCompleteData.StackId,
+                    changeSetName: changeSetCompleteData.ChangeSetName 
+                }
+            })
+
         })
 
 }
