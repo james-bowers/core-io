@@ -82,7 +82,7 @@ app.get('/get-tag/project/:project/tag/:tagId', (req, res) => {
     let fingerprint = getFingerPrintFromCert(req)
     actions.getTag({ req, fingerprint }, cloudLibrary, database)
         .then(dbResult => {
-            res.send({ tag: dbResult[0][0] })
+            res.send({ tag: dbResult })
         })
 })
 

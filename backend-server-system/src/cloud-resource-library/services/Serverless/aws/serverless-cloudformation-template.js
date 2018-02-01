@@ -27,6 +27,12 @@ module.exports = (bucketName, environmentVariables, runTime) => {
                     }
                 }
             }
+        },
+        "Outputs": {
+            "RootUrl": {
+                "Description": "Root URL of the API gateway",
+                "Value": { "Fn::Join": ["", ["https://", { "Ref": "CoreIoServerless" }, ".execute-api.", { "Ref": "AWS::Region" }, ".amazonaws.com"]] }
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-const   awsSdk = require('./../cloud-resource-library/services/awsSDK'), 
-        gcpSDK = require('./../cloud-resource-library/services/gcpSDK'),
+const   getCloudVendorSDK = require('./getCloudVendorSDK'),
         helper = require('./helper')
 
 let getAction = (action, resource) => {
@@ -21,18 +20,17 @@ let forEachRegionInResource = (resource, funcToRun) => {
     })
 }
 
-let getCloudVendorSDK = (resource) => {
-    return {
-        "AWS": awsSdk,
-        "GCP": gcpSDK
-    }[resource.provider]
-}
 
 let formatResults = (results) => {
     let formattedResults = {}
 
     results.forEach(result => {
-        formattedResults[result.resourceId] = result.cloudVendorInformation
+
+        if (!formattedResults[result.resourceId]){
+            formattedResults[result.resourceId] = {}
+        }
+
+        formattedResults[result.resourceId][result.region] = result.cloudVendorInformation
     })
 
     return formattedResults
@@ -53,6 +51,7 @@ module.exports = (projectConfig) => (action, tagName, options = {}) => {
                 cloudAction(cloudVendorSDK, projectConfig, resource, vendorFormattedRegion, tagName, options)
                     .then(result => {
                         return {
+                            region,
                             resourceId: resource.id,
                             cloudVendorInformation: result
                         }

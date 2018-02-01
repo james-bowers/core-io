@@ -6,6 +6,7 @@ const buildResources = (cloudLibrary, configuration, tagName) => {
 
         // add the creation information to the project config
         // to store in the DB
+        
         configuration.resources.forEach(resource => {
             resource.cloudVendorInformation = createResult[resource.id]
         })

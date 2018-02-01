@@ -1,4 +1,6 @@
-const helper = require('./../../../helper')
+const   helper = require('./../../../helper'),
+        Promise = require('bluebird'),
+        promisePoller = require('promise-poller').default;
 
 let getTemplateBody = (bucketName, environmentVariables, runTime) => {    
     let template = require('./serverless-cloudformation-template')(bucketName, environmentVariables, runTime)
@@ -9,6 +11,29 @@ let getRuntime = (language) => {
     return {
         'nodejs': 'nodejs6.10'
     }[language]
+}
+
+let pollUntilResult = (cloudformation, stackName) => {
+    let pollStackStatus = () => cloudformation.describeStackResources({ 
+        StackName: stackName,
+        LogicalResourceId: 'ServerlessRestApi'
+    }).promise().then(result => {
+        return result.StackResources[0]
+    })
+
+    return promisePoller({
+        taskFn: pollStackStatus,
+        interval: 20000,
+        retries: 20,
+        shouldContinue: (err, result) => {
+            
+            if(err) return true
+            
+            if (result && result.ResourceStatus === 'CREATE_COMPLETE') return false
+
+            return true
+        }
+    })
 }
 
 module.exports = (aws, configuration, resource, awsRegion, tagName) => {
@@ -58,19 +83,22 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
             }
 
             // execute then wait for completion 
-            return cloudformation.executeChangeSet({ 
+            return cloudformation.executeChangeSet({
                 StackName: changeSetCompleteData.StackId, 
                 ChangeSetName: changeSetCompleteData.ChangeSetName 
-            }).promise().then(() => {
+            }).promise()
+                .then(() => pollUntilResult(cloudformation, changeSetCompleteData.StackId))
 
-                // data to be stored with resource
-                return {
-                    stackName: stackName,
-                    stackId: changeSetCompleteData.StackId,
-                    changeSetName: changeSetCompleteData.ChangeSetName 
-                }
-            })
-
+        }).then(result => {
+            // awsRegion
+            return {
+                vendorRegion: awsRegion,
+                restApiId: result.PhysicalResourceId,
+                stackId: result.StackId,
+                stackName: result.StackName
+            }
         })
 
 }
+
+// 

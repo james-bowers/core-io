@@ -35,10 +35,11 @@ export default class _ManageTag extends Component {
     }
 
     getConfiguration(){
-        return JSON.stringify(this.state.tag.configuration, null, 2)
+        return JSON.stringify(this.state.tag, null, 2)
     }
 
     renderFull(){
+        console.log('tag state', this.state)
         return (
             <div>
                 <h3>Configuration</h3>
@@ -47,7 +48,7 @@ export default class _ManageTag extends Component {
                         {this.getConfiguration()}
                     </pre>
                 </Section>
-                <ResourceList config={this.state.tag.configuration} />
+                <ResourceList config={this.state.tag} matches={this.props.matches} />
             </div>
         )
     }
