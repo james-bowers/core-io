@@ -4,7 +4,8 @@ let getVendorFormattedRegion = (resource, region) => {
     return {
         "AWS": {
             "England": "eu-west-2",
-            "Ireland": "eu-west-1"
+            "Ireland": "eu-west-1",
+            "California": "us-west-1"
         },
         "GCP": {
             "England": "europe-west2",

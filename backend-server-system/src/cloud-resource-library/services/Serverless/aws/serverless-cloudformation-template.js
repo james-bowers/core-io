@@ -8,8 +8,8 @@ module.exports = (bucketName, environmentVariables, runTime) => {
                 "Type": "AWS::Serverless::Function",
                 "Properties": {
                     "Handler": "index.handler",
-                    "Runtime": runTime || "nodejs6.10",
-                    "CodeUri": `s3://${bucketName}/index.js.zip`,
+                    "Runtime": runTime,
+                    "CodeUri": `s3://${bucketName}/default-serverless-function.js.zip`,
                     "Description": "An AWS Lambda function deployed using core-io.",
                     "MemorySize": 128,
                     "Timeout": 3,
@@ -26,12 +26,6 @@ module.exports = (bucketName, environmentVariables, runTime) => {
                         "Variables": environmentVariables
                     }
                 }
-            }
-        },
-        "Outputs": {
-            "RootUrl": {
-                "Description": "Root URL of the API gateway",
-                "Value": { "Fn::Join": ["", ["https://", { "Ref": "CoreIoServerless" }, ".execute-api.", { "Ref": "AWS::Region" }, ".amazonaws.com"]] }
             }
         }
     }

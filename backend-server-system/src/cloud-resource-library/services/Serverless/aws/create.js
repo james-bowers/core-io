@@ -41,9 +41,8 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
     let projectId = configuration.project
 
     let cloudformation = aws('cf')(awsRegion)
-
-    // generic serverless function code
-    let codeBucketName = 'serverless-core-io'
+    
+    let codeBucketName = `serverless-core-io-${awsRegion}`
 
     let stackName = 'stack-' + helper.genId()
     let changeSetName = 'change-' + helper.genId()
@@ -97,8 +96,8 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
                 stackId: result.StackId,
                 stackName: result.StackName
             }
+        }).catch(e => {
+            console.log('creation error', e)
         })
 
-}
-
-// 
+} 
