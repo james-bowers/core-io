@@ -1,6 +1,7 @@
 {
-    "project": "gcp-serverless",
-    "localTestEnvironmentVariables": {},
+    "title": "gcp-serverless",
+    "project": "7aac4d73-dcd1-4874-b788-88ed9d088910",
+    "environmentVariables": {},
     "resources": [
         {
             "id": "HelloWorldApp",

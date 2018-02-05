@@ -21,7 +21,7 @@ const buildResourceName = (projectId, tagName, region, resourceId) => {
     return `${projectId}-${region}-${lowerCaseResourceId}-${lowerCaseTagName}`
 }
 
-const genId = () => uuid.v4().replace(/-/g, '')
+const genId = () => 's' + uuid.v4().replace(/-/g, '')
 
 module.exports = {
     getVendorFormattedRegion,
