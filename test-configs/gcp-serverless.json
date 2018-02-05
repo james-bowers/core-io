@@ -1,0 +1,19 @@
+{
+    "project": "gcp-serverless",
+    "localTestEnvironmentVariables": {},
+    "resources": [
+        {
+            "id": "HelloWorldApp",
+            "provider": "GCP",
+            "service": "Serverless",
+            "regions": [
+                "England"
+            ],
+            "properties": {
+                "directory": "./HelloWorldApp",
+                "entry": "index.js",
+                "language": "nodejs"
+            }
+        }
+    ]
+}
