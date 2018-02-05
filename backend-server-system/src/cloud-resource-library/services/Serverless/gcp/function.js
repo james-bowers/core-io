@@ -4,6 +4,6 @@
  * @param {Object} req Cloud Function request context.
  * @param {Object} res Cloud Function response context.
  */
-exports.helloGET = function helloGET(req, res) {
+exports.helloWorld = function helloWorld(req, res) {
     res.send('Serverless function placeholder');
 };

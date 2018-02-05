@@ -1,14 +1,18 @@
-const Promise = require('bluebird')
+const Promise = require('bluebird'), helper = require('./../../../helper')
 
 module.exports = (gcp, configuration, resource, gcpRegion, tagName) => {
-    console.log('create gcp called')
 
-    // configuration.project
+    if (gcpRegion !== 'us-central1'){
+        throw new Error('GCP cloud functions only supports Iowa region')
+    }
 
     let { authClient, cloudFunctions } = gcp('CloudFunctions')
 
     let location = `projects/deployments-project/locations/${gcpRegion}`
 
+    console.log('helper.genId()', helper.genId())
+    console.log('helper.genId()', helper.genId())
+    console.log('helper.genId()', helper.genId())
 
     return Promise.fromCallback(function (callback) {
 
@@ -17,20 +21,19 @@ module.exports = (gcp, configuration, resource, gcpRegion, tagName) => {
             location,
             resource: {
                 name: `${location}/functions/helloWorld`, // change name of function from helloWorld
-                sourceArchiveUrl: `gs://serverless-core-io-${gcpRegion}/gcp-default-serverless-function.js.zip`,
+                sourceArchiveUrl: `gs://serverless-core-io-us-central1/function.js.zip`, // ${gcpRegion}
                 httpsTrigger: {},
-                availableMemoryMb: 128,
-                entryPoint: 'gcp-default-serverless-function.js'
+                availableMemoryMb: 128
             }
         }
 
-        // console.log('options', JSON.stringify(params, null, 2))
+        console.log('params', JSON.stringify(params, null, 2))
 
         return cloudFunctions.projects.locations.functions.create(params, callback)
 
     })
     .then(result => {
-        console.log('result', result)
+        // console.log('result', result)
         return result
     })
 

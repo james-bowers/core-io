@@ -7,7 +7,7 @@
             "provider": "GCP",
             "service": "Serverless",
             "regions": [
-                "England"
+                "Iowa"
             ],
             "properties": {
                 "directory": "./HelloWorldApp",

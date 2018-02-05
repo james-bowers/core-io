@@ -9,7 +9,8 @@ let getVendorFormattedRegion = (resource, region) => {
         },
         "GCP": {
             "England": "europe-west2",
-            "Belgium": "europe-west1"
+            "Belgium": "europe-west1",
+            "Iowa": "us-central1" // only GCP serverless region
         }
     }[resource.provider][region]
 }
