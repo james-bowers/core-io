@@ -1,4 +1,8 @@
-const Promise = require('bluebird'), helper = require('./../../../helper')
+const Promise = require('bluebird'), 
+      helper = require('./../../../helper'),
+      getSignedUploadUrl = require('./getSignedUploadUrl'),
+      upload = require('./upload'),
+      fs = require('fs')
 
 module.exports = (gcp, configuration, resource, gcpRegion, tagName) => {
 
@@ -12,25 +16,35 @@ module.exports = (gcp, configuration, resource, gcpRegion, tagName) => {
     
     let functionId = helper.genId()
 
-    return Promise.fromCallback(function (callback) {
+    return getSignedUploadUrl(gcp, configuration, resource, gcpRegion, tagName)
+            .then(uploadUrl => {
+                
+                let sourceCode = fs.readFileSync(`${__dirname}/function.js.zip`)
 
-        let params = {
-            auth: authClient,
-            location,
-            resource: {
-                name: `${location}/functions/${functionId}`, // change name of function from helloWorld
-                entryPoint: 'main',
-                sourceArchiveUrl: `gs://serverless-core-io-${gcpRegion}/function.js.zip`, // ${gcpRegion}
-                httpsTrigger: {},
-                availableMemoryMb: 128
-            }
-        }
+                return upload(authClient, uploadUrl, sourceCode)
+                            .then( () => uploadUrl)
 
-        return cloudFunctions.projects.locations.functions.create(params, callback)
+            })
+            .then(uploadUrl => {
 
-    })
-    .then(result => {
-        return { functionId }
-    })
+                return Promise.fromCallback(function (callback) {
+                    let params = {
+                        auth: authClient,
+                        location,
+                        resource: {
+                            name: `${location}/functions/${functionId}`,
+                            entryPoint: 'main',
+                            sourceUploadUrl: uploadUrl,
+                            httpsTrigger: {},
+                            availableMemoryMb: 128
+                        }
+                    }
+
+                    return cloudFunctions.projects.locations.functions.create(params, callback)
+                })
+
+            }).then(result => {
+                return { functionId }
+            })
 
 }

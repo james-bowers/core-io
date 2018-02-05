@@ -1,12 +1,12 @@
 const Storage = require('@google-cloud/storage'),
     { auth } = require('google-auth-library'),
-    { cloudfunctions } = require('googleapis');
+    google = require('googleapis');
 
 let cloudAccessCredentials = require('./cloud-credentials.json')
 
 const getCloudFunctions = () => {
 
-    let cloudFunctions = cloudfunctions('v1beta2')
+    let cloudFunctions = google.cloudfunctions('v1beta2')
 
     let authClient = auth.fromJSON(cloudAccessCredentials.gcp)
 
