@@ -38,7 +38,14 @@ const buildResourceName = (projectId, tagName, region, resourceId) => {
 
 const genId = () => 's' + uuid.v4().replace(/-/g, '')
 
+
+const buildKeyPath = (folderPath, fileName) => {
+    let splitter = folderPath ? '/' : ''
+    return [folderPath, fileName].join(splitter)
+}
+
 module.exports = {
+    buildKeyPath,
     getVendorFormattedRegion,
     buildResourceName,
     genId,

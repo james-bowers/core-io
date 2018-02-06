@@ -8,13 +8,11 @@ module.exports = (aws, configuration, resource, awsRegion, tagName, options) => 
 
     let s3 = aws('s3')
 
-    let name = options.uploads.static_file.name
-    let folderPath = options.folderPath
-    let splitter = folderPath ? '/' : ''
+    let fileKey = helper.buildKeyPath(options.folderPath, options.uploads.static_file.name)
 
     var params = { 
         Bucket: bucket,
-        Key: [folderPath, name].join(splitter), 
+        Key: fileKey, 
         Body: options.uploads.static_file.data,
         ACL: awsAccessControllValue(resource.properties.accessibility)
     };

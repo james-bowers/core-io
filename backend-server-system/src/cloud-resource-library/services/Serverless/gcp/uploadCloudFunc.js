@@ -13,8 +13,6 @@ module.exports = {
         
         return file.save(zipBuffer).then(() => {
             return `serverless-core-io-${gcpRegion}/${functionId}.zip`
-        }).catch(e => {
-            console.error(e)
         })
     },
 
