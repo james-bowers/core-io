@@ -12,5 +12,5 @@ module.exports = ({ req, fingerprint }, cloudLibrary, database) => {
 
     let db = database.db()
     return database.dbActions(db)('get')(keysArray)
-            .then((tagResult => tagResult[0][0].configuration))
+            .then((tagResult => tagResult[0][0]))
 }

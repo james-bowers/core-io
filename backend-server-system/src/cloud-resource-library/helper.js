@@ -15,6 +15,21 @@ let getVendorFormattedRegion = (resource, region) => {
     }[resource.provider][region]
 }
 
+let getReadableRegion = (resource, vendorRegion) => {
+    return {
+        "AWS": {
+            "eu-west-2": "England",
+            "eu-west-1": "Ireland",
+            "us-west-1": "California"
+        },
+        "GCP":{
+            "europe-west2": "England",
+            "europe-west1": "Belgium",
+            "us-central1": "Iowa"
+        }
+    }[resource.provider][vendorRegion]
+}
+
 const buildResourceName = (projectId, tagName, region, resourceId) => {
     let lowerCaseResourceId = resourceId.toLowerCase()
     let lowerCaseTagName = tagName.toLowerCase()
@@ -26,5 +41,6 @@ const genId = () => 's' + uuid.v4().replace(/-/g, '')
 module.exports = {
     getVendorFormattedRegion,
     buildResourceName,
-    genId
+    genId,
+    getReadableRegion
 }

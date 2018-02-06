@@ -1,12 +1,15 @@
 import { h } from 'preact'
 
 import { Section, Button } from './../'
+import resources from './resources'
 
 let deployResource = (resource) => () => {
     console.log('deploy resource', resource)
 }
 
-export default ({ config, matches }) => {
+export default ({ tag, matches }) => {
+    
+    let config = tag.configuration
 
     console.log('config', config)
 
@@ -18,16 +21,10 @@ export default ({ config, matches }) => {
     config.resources.forEach(resource => {
         resource.regions.forEach(region => {
 
-            // assumes AWS and serverless... needs refining per vendor/service
-            let awsRegion = resource.cloudVendorInformation[region].vendorRegion
-            let serverlessId = resource.cloudVendorInformation[region].restApiId
-            let serverlessEndpoint = `https://${serverlessId}.execute-api.${awsRegion}.amazonaws.com/Prod/`
+            let ResourceComponent = resources[resource.provider.toLowerCase()][resource.service.toLowerCase()]
 
             renderedResources.push(
-                <Section>
-                    <p>Resource type {resource.service} on the {resource.provider} platform, in {region} </p>
-                    <a target="_blank" href={serverlessEndpoint}>Visit endpoint</a>
-                </Section>
+                <ResourceComponent matches={matches} resource={resource} region={region} />
             )
         })
     })

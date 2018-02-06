@@ -1,35 +1,36 @@
-const Promise = require('bluebird'), helper = require('./../../../helper')
+const Promise = require('bluebird'), 
+      helper = require('./../../../helper'),
+      uploadCloudFunc = require('./uploadCloudFunc').usingFileName
 
-module.exports = (gcp, configuration, resource, gcpRegion, tagName) => {
-
-    if (gcpRegion !== 'us-central1'){
-        throw new Error('GCP cloud functions only supports the Iowa region')
-    }
+module.exports = (gcp, configuration, resource, gcpRegion, tagName, options) => {
 
     let { authClient, cloudFunctions } = gcp('CloudFunctions')
 
     let location = `projects/deployments-project/locations/${gcpRegion}`
     
-    let functionId = helper.genId()
+    let functionId = options.functionId || helper.genId()
+    
+    let pathToZip = `${__dirname}/function.js.zip`
 
-    return Promise.fromCallback(function (callback) {
-
-        let params = {
-            auth: authClient,
-            location,
-            resource: {
-                name: `${location}/functions/${functionId}`, // change name of function from helloWorld
-                entryPoint: 'main',
-                sourceArchiveUrl: `gs://serverless-core-io-${gcpRegion}/function.js.zip`, // ${gcpRegion}
-                httpsTrigger: {},
-                availableMemoryMb: 128
+    return uploadCloudFunc(gcp, pathToZip, functionId, gcpRegion).then((pathToZip) => {
+        
+        return Promise.fromCallback(function (callback) {
+            let params = {
+                auth: authClient,
+                location,
+                resource: {
+                    name: `${location}/functions/${functionId}`,
+                    entryPoint: 'main',
+                    sourceArchiveUrl: `gs://${pathToZip}`,
+                    httpsTrigger: {},
+                    availableMemoryMb: 128
+                }
             }
-        }
 
-        return cloudFunctions.projects.locations.functions.create(params, callback)
+            return cloudFunctions.projects.locations.functions.create(params, callback)
+        })
 
-    })
-    .then(result => {
+    }).then(result => {
         return { functionId }
     })
 

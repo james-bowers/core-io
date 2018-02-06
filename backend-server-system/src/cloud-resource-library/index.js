@@ -37,8 +37,6 @@ let formatResults = (results) => {
 }
 
 // action could be: [create, deploy]
-// valid AWS regions: England, Ireland, California
-// valid GCP regions: England, Belgium
 module.exports = (projectConfig) => (action, tagName, options = {}) => {
 
     let promisedActions = []

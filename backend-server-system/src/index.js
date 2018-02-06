@@ -5,6 +5,7 @@ let { createCertificate } = require('./auth')
 var bodyParser = require('body-parser')
 let pem = require('pem')
 const express = require('express')
+const fileUpload = require('express-fileupload');
 
 const app = express()
 
@@ -12,7 +13,7 @@ const getFingerPrintFromCert = (req) => {
     var cert = req.connection.getPeerCertificate();
     return cert.fingerprint
 }
-
+app.use(fileUpload())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -65,6 +66,15 @@ app.post('/create-project', (req, res) => {
 app.post('/create-project-tag', (req, res) => {
     let fingerprint = getFingerPrintFromCert(req)
     actions.createProjectTag({ req, fingerprint }, cloudLibrary, database)
+        .then(createStatus => {
+            res.send({ createStatus })
+        })
+})
+
+app.post('/project/:project/tag/:tagId/deploy', (req, res) => {
+    console.log('matched deploy route')
+    let fingerprint = getFingerPrintFromCert(req)
+    actions.deploy({ req, fingerprint }, cloudLibrary, database)
         .then(createStatus => {
             res.send({ createStatus })
         })

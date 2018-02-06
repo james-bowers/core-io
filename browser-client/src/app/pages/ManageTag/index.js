@@ -21,6 +21,7 @@ export default class _ManageTag extends Component {
             api('GET', `/get-tag/project/${matches.project}/tag/${matches.tagId}`, {}).then(response => response.json()),
             api('GET', `/get-project/${matches.project}`, {}).then(response => response.json())
         ]).then(response => {
+            console.log('response', response)
             return {
                 tag: response[0].tag,
                 project: response[1].project
@@ -35,7 +36,7 @@ export default class _ManageTag extends Component {
     }
 
     getConfiguration(){
-        return JSON.stringify(this.state.tag, null, 2)
+        return JSON.stringify(this.state.tag.configuration, null, 2)
     }
 
     renderFull(){
@@ -48,7 +49,7 @@ export default class _ManageTag extends Component {
                         {this.getConfiguration()}
                     </pre>
                 </Section>
-                <ResourceList config={this.state.tag} matches={this.props.matches} />
+                <ResourceList tag={this.state.tag} matches={this.props.matches} />
             </div>
         )
     }
