@@ -1,23 +1,18 @@
 const Promise = require('bluebird'),
     helper = require('./../../../helper'),
-    uploadCloudFunc = require('./uploadCloudFunc').usingFileName
+    uploadCloudFunc = require('./uploadCloudFunc').usingBuffer
 
 module.exports = (gcp, configuration, resource, gcpRegion, tagName, options) => {
 
     let { authClient, cloudFunctions } = gcp('CloudFunctions')
 
-
     let readableRegion = helper.getReadableRegion(resource, gcpRegion)
     let functionId = resource.cloudVendorInformation[readableRegion].functionId
-    console.log('updating functionId', functionId)
 
     let location = `projects/deployments-project/locations/${gcpRegion}`
 
-    let pathToZip = `${__dirname}/function.js.zip`
-
-
-        return uploadCloudFunc(gcp, pathToZip, functionId, gcpRegion)
-            .then(pathToZip => {
+    return uploadCloudFunc(gcp, options.zipBuffer, functionId, gcpRegion)
+        .then(pathToZip => {
 
             return Promise.fromCallback(function (callback) {
                 let params = {
@@ -40,6 +35,5 @@ module.exports = (gcp, configuration, resource, gcpRegion, tagName, options) => 
         }).then(result => {
             return { functionId }
         })
-
 
 }
