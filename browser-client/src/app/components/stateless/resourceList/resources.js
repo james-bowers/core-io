@@ -15,6 +15,21 @@ let gcp = {
                 </form>
             </Section>
         )
+    },
+    staticfilestore: ({ resource, region, matches }) => {
+        return (
+            <Section>
+                <p>Resource type {resource.service} on the {resource.provider} platform, in {region} </p>
+                <form
+                    encType="multipart/form-data"
+                    method='POST'
+                    action={`https://localhost:5000/project/${matches.project}/tag/${matches.tagId}/deploy`}>
+                    <input type='text' name='filePath' />
+                    <input type='file' name='static_file' />
+                    <input type='submit' value='Deploy' />
+                </form>
+            </Section>
+        )
     }
 }
 
@@ -34,6 +49,21 @@ let aws = {
                     method='POST'
                     action={`https://localhost:5000/project/${matches.project}/tag/${matches.tagId}/deploy`}>
                     <input type='file' name='serverless_zip' />
+                    <input type='submit' value='Deploy' />
+                </form>
+            </Section>
+        )
+    },
+    staticfilestore: ({ resource, region, matches }) => {
+        return (
+            <Section>
+                <p>Resource type {resource.service} on the {resource.provider} platform, in {region} </p>
+                <form
+                    encType="multipart/form-data"
+                    method='POST'
+                    action={`https://localhost:5000/project/${matches.project}/tag/${matches.tagId}/deploy`}>
+                    <input type='text' name='folderPath' value='some/path' />
+                    <input type='file' name='static_file' />
                     <input type='submit' value='Deploy' />
                 </form>
             </Section>

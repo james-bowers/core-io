@@ -72,7 +72,6 @@ app.post('/create-project-tag', (req, res) => {
 })
 
 app.post('/project/:project/tag/:tagId/deploy', (req, res) => {
-    console.log('matched deploy route')
     let fingerprint = getFingerPrintFromCert(req)
     actions.deploy({ req, fingerprint }, cloudLibrary, database)
         .then(createStatus => {

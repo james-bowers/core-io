@@ -11,7 +11,7 @@ module.exports = (gcp, configuration, resource, gcpRegion, tagName, options) => 
 
     let location = `projects/deployments-project/locations/${gcpRegion}`
 
-    return uploadCloudFunc(gcp, options.zipBuffer, functionId, gcpRegion)
+    return uploadCloudFunc(gcp, options.uploads.serverless_zip.data, functionId, gcpRegion)
         .then(pathToZip => {
 
             return Promise.fromCallback(function (callback) {

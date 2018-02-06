@@ -11,10 +11,7 @@ export default ({ tag, matches }) => {
     
     let config = tag.configuration
 
-    console.log('config', config)
-
     if (!config.resources) return ''
-
 
     let renderedResources = []
 
@@ -22,7 +19,7 @@ export default ({ tag, matches }) => {
         resource.regions.forEach(region => {
 
             let ResourceComponent = resources[resource.provider.toLowerCase()][resource.service.toLowerCase()]
-
+            
             renderedResources.push(
                 <ResourceComponent matches={matches} resource={resource} region={region} />
             )

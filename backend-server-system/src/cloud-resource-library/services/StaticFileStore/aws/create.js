@@ -1,11 +1,6 @@
 const helper = require('./../../../helper')
 
-const awsAccessControllValue = (coreIoAccessibilitySetting) => {
-    return {
-        "public": "public-read",
-        "private": "private"
-    }[coreIoAccessibilitySetting]
-}
+const awsAccessControllValue = require('./accessControl')
 
 module.exports = (aws, configuration, resource, awsRegion, tagName) => {
 
