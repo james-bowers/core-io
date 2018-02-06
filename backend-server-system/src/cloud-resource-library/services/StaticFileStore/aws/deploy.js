@@ -1,6 +1,9 @@
 let helper = require('./../../../helper')
 
-module.exports = (aws, configuration, resource, awsRegion, tagName) => {
+module.exports = (aws, configuration, resource, awsRegion, tagName, options) => {
+
+
+
 
     // upload a file to
 

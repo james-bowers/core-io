@@ -19,6 +19,7 @@ const getAwsConfig = () => {
 module.exports = (service) => {
     let awsConfig = getAwsConfig()
     return {
+        lambda: new AWS.Lambda(awsConfig),
         s3: new AWS.S3(awsConfig),
         cf: (region) => {
             awsConfig.update({ region })

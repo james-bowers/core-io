@@ -1,9 +1,11 @@
 const   helper = require('./../../../helper'),
         Promise = require('bluebird'),
-        promisePoller = require('promise-poller').default;
+        promisePoller = require('promise-poller').default,
+        uploadLambda = require('./uploadLambda'),
+        fs = require('fs')
 
-let getTemplateBody = (bucketName, environmentVariables, runTime) => {    
-    let template = require('./serverless-cloudformation-template')(bucketName, environmentVariables, runTime)
+let getTemplateBody = (functionPath, environmentVariables, runTime, functionId) => {    
+    let template = require('./serverless-cloudformation-template')(functionPath, environmentVariables, runTime, functionId)
     return JSON.stringify(template, null, 2)
 }
 
@@ -38,14 +40,17 @@ let pollUntilResult = (cloudformation, stackName) => {
 
 module.exports = (aws, configuration, resource, awsRegion, tagName) => {
 
+    let functionId = helper.genId()
+
     let projectId = configuration.project
 
     let cloudformation = aws('cf')(awsRegion)
     
-    let codeBucketName = `serverless-core-io-${awsRegion}`
-
+    let codeBucket = `serverless-core-io-${awsRegion}`
+        
     let stackName = 'stack-' + helper.genId()
     let changeSetName = 'change-' + helper.genId()
+
     let createChangeSetParams = {
         StackName: changeSetName,
         ChangeSetName: changeSetName,
@@ -57,14 +62,19 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
             }
         ],
         TemplateBody: getTemplateBody(
-            codeBucketName,
+            `${codeBucket}/${functionId}`,
             configuration.environmentVariables || {}, 
-            getRuntime(resource.properties.language)
+            getRuntime(resource.properties.language),
+            functionId
         ),
         Capabilities: ["CAPABILITY_IAM"]
     }
 
-    return cloudformation.createChangeSet(createChangeSetParams).promise()
+    let defaultLambdaFunctionPath = `${__dirname}/default-function.js.zip`
+    let lambaBuffer = fs.readFileSync(defaultLambdaFunctionPath);
+
+    return uploadLambda(aws, functionId, codeBucket, lambaBuffer)
+        .then(() => cloudformation.createChangeSet(createChangeSetParams).promise())
         .then(data => {
 
             var executeStackChangeParams = {
@@ -89,14 +99,15 @@ module.exports = (aws, configuration, resource, awsRegion, tagName) => {
                 .then(() => pollUntilResult(cloudformation, changeSetCompleteData.StackId))
 
         }).then(result => {
-            // awsRegion
             return {
+                functionId,
                 vendorRegion: awsRegion,
                 restApiId: result.PhysicalResourceId,
                 stackId: result.StackId,
                 stackName: result.StackName
             }
-        }).catch(e => {
+        })
+        .catch(e => {
             console.log('creation error', e)
         })
 
