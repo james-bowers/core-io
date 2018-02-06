@@ -1,21 +1,20 @@
 // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Lambda.html#updateFunctionCode-property
+const helper = require('./../../../helper')
 
-module.exports = (aws, configuration, resource, awsRegion, tagName) => {
+module.exports = (aws, configuration, resource, awsRegion, tagName, options) => {
+    
+    console.log('deploy aws serverless')
 
-    let lambda = aws('lambda')
+    let lambda = aws('lambda')(awsRegion)
 
     let readableRegion = helper.getReadableRegion(resource, awsRegion)
     let functionId = resource.cloudVendorInformation[readableRegion].functionId
 
-    let codeBucketName = `serverless-core-io-${awsRegion}`
-
     var params = {
         FunctionName: functionId,
         Publish: true,
-        S3Bucket: codeBucketName,
-        S3Key: functionId,
         ZipFile: options.zipBuffer
     };
 
- return lambda.updateFunctionCode(params)
+    return lambda.updateFunctionCode(params).promise()
 }

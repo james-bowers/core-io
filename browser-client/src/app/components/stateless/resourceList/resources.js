@@ -19,7 +19,7 @@ let gcp = {
 }
 
 let aws = {
-    serverless: ({ resource, region }) => {
+    serverless: ({ resource, region, matches }) => {
         // assumes AWS and serverless... needs refining per vendor/service
         let awsRegion = resource.cloudVendorInformation[region].vendorRegion
         let serverlessId = resource.cloudVendorInformation[region].restApiId
@@ -29,6 +29,13 @@ let aws = {
             <Section>
                 <p>Resource type {resource.service} on the {resource.provider} platform, in {region} </p>
                 <a target="_blank" href={serverlessEndpoint}>Visit endpoint</a>
+                <form
+                    encType="multipart/form-data"
+                    method='POST'
+                    action={`https://localhost:5000/project/${matches.project}/tag/${matches.tagId}/deploy`}>
+                    <input type='file' name='serverless_zip' />
+                    <input type='submit' value='Deploy' />
+                </form>
             </Section>
         )
     }
