@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-
+import { Link } from 'preact-router'
 import { api, download } from './../../Utils'
 import { Button, ProjectForm } from './../../components/stateless'
 
@@ -8,7 +8,7 @@ export default class _CreateProject extends Component {
     constructor(){
         super()
         this.state = {
-            projectConfig: undefined,
+            project: undefined,
             created: false
         }
 
@@ -22,7 +22,7 @@ export default class _CreateProject extends Component {
         .then(response => response.json())
         .then(response => {
             this.setState({
-                projectConfig: response.projectConfig,
+                project: response,
                 created: true
             })
             return {error: false}
@@ -35,18 +35,21 @@ export default class _CreateProject extends Component {
     }
 
     readableConfig(){
-        return JSON.stringify(this.state.projectConfig, null, 2)
+        return JSON.stringify(this.state.project.projectConfig, null, 2)
     }
 
     renderProjectConfigFile(){
+        
+        this.downloadConfig()
+
         return (
             <div>
                 <h3>Your project configuration file</h3>
                 <p>Save the following JSON in your config.core-io.json file, in the root of your project directory.</p>
-                <Button text="Download your config file" className="centered" onClick={this.downloadConfig} />
                 <pre class="code" data-lang="JSON">
                     {this.readableConfig()}
                 </pre>
+                <Link href={`/project/${this.state.project.projectConfig.project}`}>View created project</Link>
             </div>
         )
     }

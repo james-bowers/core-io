@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { Link } from 'preact-router'
 import { api, getKeyInformation } from './../../../Utils'
 import { Empty, Button, Section, Anchor} from './../../stateless'
 export default class _ProjectList extends Component {
@@ -32,8 +33,8 @@ export default class _ProjectList extends Component {
         let projectsList = [...this.state.projects].map(project => {
             let projectKeyInformation = getKeyInformation(project._key)
             return (
-                <Anchor href={`/project/${projectKeyInformation.project}`}>
-                    <Section>
+                <Anchor className='column col-6' href={`/project/${projectKeyInformation.project}`}>
+                    <Section >
                         <h5>{project.title}</h5>
                     </Section>
                 </Anchor>
@@ -41,9 +42,12 @@ export default class _ProjectList extends Component {
         })
 
         return (
-            <div>
+            <div class="container">
                 <h3>Projects</h3>
-                {projectsList}
+                <Link href="/create-project">New project</Link>
+                <div class="columns">
+                    {projectsList}
+                </div>
             </div>
         )
     }

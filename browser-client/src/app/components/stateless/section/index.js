@@ -1,8 +1,8 @@
 import {h} from 'preact'
 
-export default ({children}) => {
+export default ({children, className}) => {
     return (
-        <section>
+        <section class={className || ''}>
             {children}
         </section>
     )

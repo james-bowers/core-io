@@ -1,18 +1,16 @@
 import { h, Component} from 'preact'
 import {Link} from 'preact-router'
+import ProjectList from './../../components/statefull/ProjectList'
 
 export default class _Home extends Component {
 
     render(){
         return (
             <div>
-                <Link href="/account">account</Link>
-                <br />
-                <Link href="/projects">projects</Link>
-                <br />
-                <Link href="/create-project">create project</Link>
-                <br />
                 <Link href="/sign-up">sign up</Link>
+                <br />
+                <Link href="/account">account</Link>
+                <ProjectList />                
             </div>
         )
     }

@@ -9,7 +9,7 @@ export default (props) => {
     return (
         <Form action={action} submitTxt={submitTxt} onSubmit={onSubmit}>
             <Input label='Tag name' id='tagName' placeholder='Name of the tag' value={tagName} />
-            <Input type="textarea" label='Project config' id='config' placeholder='Your config file' value={config} />
+            <Input type="textarea" label='Project config' id='config' placeholder={config} />
         </Form>
     )
 }
