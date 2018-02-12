@@ -57,6 +57,7 @@ app.get('/get-projects', (req, res) => {
 
 app.post('/create-project', (req, res) => {
     let fingerprint = getFingerPrintFromCert(req)
+    console.log('fingerprint', fingerprint)
     actions.createProject({req, fingerprint}, cloudLibrary, database)
         .then(projectConfig => {
             res.send({ projectConfig })
