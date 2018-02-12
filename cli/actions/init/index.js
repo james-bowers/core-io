@@ -15,7 +15,14 @@ module.exports = (host, params) => {
             body: JSON.stringify({title: params.title})
         }, params.certificate)
         .then(response => {
-            console.log('response', response)
+
+            let config = JSON.parse(response.body)
+
+            // set the p12 path in the config            
+            config.p12Path = params.certificate.p12Path
+            utils.writeFile('core-io.config.json', JSON.stringify(config, null, 2))
+
+            // p12Path: /Users/jamesbowers/Desktop/core-io-certificate.p12
 
         })
 

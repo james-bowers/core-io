@@ -42,7 +42,7 @@ module.exports = {
     writeFile: (path, content) => new Promise(function (resolve, reject) {
         fs.writeFile(path, content, 'UTF-8', function (err) {
             if (err) reject(err);
-            resolve(data);
+            resolve(content);
         });
     }),
     fetch: (uri, options, certificate) => {
@@ -58,6 +58,6 @@ module.exports = {
                 if (err) reject(err)
                 resolve(response)
             })
-        })
+        }).then(response => response.toJSON())
     }
 };

@@ -23,12 +23,12 @@ module.exports = (argv) => {
         argv.certificate = certificate
 
         if (hasConfig) {
-            argv.config = utils.readFile('core-io.config.json')
+            argv.config = JSON.parse(utils.readFile('core-io.config.json'))
             argv.certificate.p12Path = argv.config.p12Path // get the p12 path from the config
         }
 
         console.log('argv', argv)
-        
+
         return argv
     })
 
