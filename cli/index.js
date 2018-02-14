@@ -10,21 +10,13 @@ clear();
 utils.printTitle('yellow', 'core-io')
 
 // run the action
-let pathToAction = './actions/' + argv._.join('/')
+argv.pathToAction = './actions/' + argv._.join('/')
+
 let host = 'https://localhost:5000'
 
-
-// start a loading spinner to show something is happening
-// const status = new clui.Spinner('Authenticating you, please wait...');
-// status.start();
-
-// TODO: load config if exists
-// & ask for password to .p12 it
 require('./start')(argv)
-    .then((params) => require(pathToAction)(host, params))
-    .then(() => status.stop())
+    .then((params) => require(argv.pathToAction)(host, params))
     .catch((e) => {
-        // status.stop()
         utils.print('red', 'An error occured')
         utils.print('red', e)
     })

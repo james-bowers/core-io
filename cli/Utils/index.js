@@ -6,6 +6,10 @@ const inquirer = require('inquirer');
 const request = require('request')
 const http = require('http');
 
+const print = (color, message) => {
+    console.log(chalk[color](message));
+}
+
 module.exports = {
     fullPath: (path) => {
         return `${process.cwd()}/${path}`
@@ -34,9 +38,7 @@ module.exports = {
             )
         );
     },
-    print: (color, title) => {
-        console.log( chalk[color](title) );
-    },
+    print,
     ask: (questions) => inquirer.prompt(questions),
     readFile: (path) => fs.readFileSync(path),
     writeFile: (path, content) => new Promise(function (resolve, reject) {
@@ -59,5 +61,6 @@ module.exports = {
                 resolve(response)
             })
         }).then(response => response.toJSON())
-    }
+    },
+    prettyPrintJson: (json, color='white') => print(color, JSON.stringify(json, null, 2))
 };

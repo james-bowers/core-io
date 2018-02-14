@@ -1,4 +1,4 @@
-const utils = require('./../../Utils')
+const utils = require('./../../../Utils')
 
 module.exports = (host, params) => {
 

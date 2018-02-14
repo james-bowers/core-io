@@ -1,0 +1,10 @@
+{
+    "name": {
+        "required": true,
+        "question": {
+                "name": "name",
+                "type": "input",
+                "message": "The name of the new tag to create"
+        }
+    }
+}
