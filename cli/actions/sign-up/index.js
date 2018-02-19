@@ -17,14 +17,14 @@ module.exports = (host, params) => {
         }
     })
 
+    let certFilename = 'core-io.p12'
 
-    let writeStream = fs.createWriteStream('core-io.p12', { encoding: 'binary' })
+    let writeStream = fs.createWriteStream(certFilename, { encoding: 'binary' })
     readStream.on('data', (chunk) => {
         writeStream.write(chunk)
     })
 
-    let fullPathToCert = utils.fullPath('core-io.p12')
-
+    let fullPathToCert = utils.fullPath(certFilename)
     utils.print('green', `Your certificate has been saved to ${fullPathToCert}`)
 
 }

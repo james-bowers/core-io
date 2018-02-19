@@ -58,8 +58,6 @@ module.exports = {
             options.agentOptions['pfx'] = fs.readFileSync(certificate.p12Path)
         }
 
-        console.log('options', options)
-
         return new Promise((resolve, reject) => {
             request(uri, options, (err, response) => {
                 if (err) reject(err)
@@ -69,7 +67,7 @@ module.exports = {
             if (!convertToJSON) return response
             return response.toJSON()
         })
-        // .catch(e => console.error(e))
+
     },
     prettyPrintJson: (json, color='white') => print(color, JSON.stringify(json, null, 2))
 };
