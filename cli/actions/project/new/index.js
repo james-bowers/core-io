@@ -17,7 +17,7 @@ module.exports = (host, params) => {
         }, params.certificate)
         .then(response => {
 
-            let config = JSON.parse(response.body)
+            let config = response.body
 
             // set the p12 path in the config            
             config.p12Path = params.certificate.p12Path

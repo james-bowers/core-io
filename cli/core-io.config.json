@@ -1,21 +1,9 @@
 {
   "projectConfig": {
-    "project": "d213ffe5-6a0d-4c69-b47b-9a9262acdddc",
+    "title": "pp",
+    "project": "73851db7-ccbb-499b-9142-14ee40e4dc2e",
     "environmentVariables": {},
-    "resources": [
-      {
-        "id": "Images",
-        "provider": "AWS",
-        "service": "StaticFileStore",
-        "regions": [
-          "England"
-        ],
-        "properties": {
-          "directory": "./images",
-          "accessibility": "public"
-        }
-      }
-    ]
+    "resources": []
   },
-  "p12Path": "/Users/jamesbowers/Desktop/core-io-certificate.p12"
+  "p12Path": "/Users/jamesbowers/core-io/cli/core-io.p12"
 }

@@ -1,23 +1,30 @@
 const fs = require('fs')
 const utils = require('./../../Utils')
-
+const forge = require('node-forge')
+const request = require('request')
 module.exports = (host, params) => {
 
-    return utils.fetch(host + `/sign-up`, {
+
+    let readStream = request(host + `/sign-up`, {
         method: 'POST',
         body: {
             email: params.email,
             password: params.password
         },
-        json: true
-    }, undefined, false)
-        .then(response => {
+        json:true,
+        agentOptions: {
+            rejectUnauthorized: false
+        }
+    })
 
-            // save the .p12 certificate
-            let timestamp = new Date().getTime()
-            let fileName = `${timestamp}.core-io.cert.p12`
-            fs.writeFileSync(fileName, response.body)
 
-            utils.print('green', `Your certificate has been saved to ${fileName}`)
-        })
+    let writeStream = fs.createWriteStream('core-io.p12', { encoding: 'binary' })
+    readStream.on('data', (chunk) => {
+        writeStream.write(chunk)
+    })
+
+    let fullPathToCert = utils.fullPath('core-io.p12')
+
+    utils.print('green', `Your certificate has been saved to ${fullPathToCert}`)
+
 }
