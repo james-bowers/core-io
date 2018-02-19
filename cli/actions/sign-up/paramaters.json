@@ -1,0 +1,18 @@
+{
+    "email": {
+        "required": true,
+        "question": {
+            "name": "email",
+            "type": "input",
+            "message": "Your email address"
+        }
+    },
+    "password": {
+        "required": true,
+        "question": {
+            "name": "password",
+            "type": "password",
+            "message": "Password"
+        }
+    }
+}

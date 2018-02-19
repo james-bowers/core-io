@@ -47,11 +47,15 @@ module.exports = {
             resolve(content);
         });
     }),
-    fetch: (uri, options, certificate) => {
+    fetch: (uri, options, certificate, convertToJSON=true) => {
+
         options.agentOptions = {
-            rejectUnauthorized: false,
-            passphrase: certificate.passphrase,
-            pfx: fs.readFileSync(certificate.p12Path)
+            rejectUnauthorized: false
+        }
+
+        if (certificate){
+            options.agentOptions['passphrase'] = certificate.passphrase
+            options.agentOptions['pfx'] = fs.readFileSync(certificate.p12Path)
         }
 
         return new Promise((resolve, reject) => {
@@ -59,7 +63,10 @@ module.exports = {
                 if (err) reject(err)
                 resolve(response)
             })
-        }).then(response => response.toJSON())
+        }).then(response => {
+            if (!convertToJSON) return response
+            return response.toJSON()
+        })
     },
     prettyPrintJson: (json, color='white') => print(color, JSON.stringify(json, null, 2))
 };

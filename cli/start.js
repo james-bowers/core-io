@@ -14,7 +14,7 @@ module.exports = (argv) => {
     return getRequiredParams(argv)
     .then(actionSpecificQuestions => {
         
-        return utils.ask([
+        let certificateQuestions = [
             {
                 name: 'passphrase',
                 type: 'input',
@@ -26,7 +26,14 @@ module.exports = (argv) => {
                 message: 'Enter absolute path to your core-io p.12 certificate',
                 when: !hasConfig // ask when the user hasn't set a config
             }
-        ].concat(actionSpecificQuestions))
+        ]
+
+        // don't ask certificate questions if signing up, 
+        // but still ask for action specific questions
+        if (argv._[0] === 'sign-up') return utils.ask(actionSpecificQuestions)
+
+        // ask for certificate questions && action specific questions
+        return utils.ask(certificateQuestions.concat(actionSpecificQuestions))
 
     })
     .then(inputs => {
