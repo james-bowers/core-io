@@ -18,6 +18,10 @@ module.exports = (host, params) => {
             action: 'project new',
             description: 'Start a new project'
         },
+        {
+            action: 'project tag new',
+            description: 'New tag for a project'
+        },
     ].map(actionHelp => {
         console.log(actionHelp.action + '\t\t' + actionHelp.description)
     })

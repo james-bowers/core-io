@@ -2,6 +2,7 @@ module.exports = (argv) => {
 
     let questions = []
 
+    // get the paramaters config for each action
     let paramConfig = require(argv.pathToAction + '/paramaters.json')
     
     // go through each of the required paramaters

@@ -48,7 +48,6 @@ module.exports = {
         });
     }),
     fetch: (uri, options, certificate) => {
-
         options.agentOptions = {
             rejectUnauthorized: false,
             passphrase: certificate.passphrase,

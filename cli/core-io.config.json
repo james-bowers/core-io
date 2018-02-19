@@ -1,8 +1,21 @@
 {
   "projectConfig": {
-    "project": "366763fb-8e78-4de1-b4a5-0ca1e246b538",
+    "project": "d213ffe5-6a0d-4c69-b47b-9a9262acdddc",
     "environmentVariables": {},
-    "resources": []
+    "resources": [
+      {
+        "id": "Images",
+        "provider": "AWS",
+        "service": "StaticFileStore",
+        "regions": [
+          "England"
+        ],
+        "properties": {
+          "directory": "./images",
+          "accessibility": "public"
+        }
+      }
+    ]
   },
   "p12Path": "/Users/jamesbowers/Desktop/core-io-certificate.p12"
 }

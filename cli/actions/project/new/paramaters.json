@@ -1,0 +1,10 @@
+{
+    "title": {
+        "required": true,
+        "question": {
+            "name": "title",
+            "type": "input",
+            "message": "The title of the new project to create"
+        }
+    }
+}

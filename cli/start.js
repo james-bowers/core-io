@@ -29,9 +29,15 @@ module.exports = (argv) => {
         ].concat(actionSpecificQuestions))
 
     })
-    .then(certificate => {
+    .then(inputs => {
 
-        argv.certificate = certificate
+        // add inputs to argv
+        argv = Object.assign(argv, inputs)
+
+        argv.certificate = {
+            passphrase: inputs.passphrase,
+            p12Path: inputs.p12Path
+        }
 
         if (hasConfig) {
             argv.config = JSON.parse(utils.readFile('core-io.config.json'))

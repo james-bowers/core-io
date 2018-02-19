@@ -12,7 +12,8 @@ module.exports = (host, params) => {
 
         return utils.fetch(host + '/create-project', {
             method: 'POST',
-            body: JSON.stringify({title: params.title})
+            body: {title: params.title},
+            json: true
         }, params.certificate)
         .then(response => {
 
@@ -21,8 +22,6 @@ module.exports = (host, params) => {
             // set the p12 path in the config            
             config.p12Path = params.certificate.p12Path
             utils.writeFile('core-io.config.json', JSON.stringify(config, null, 2))
-
-            // p12Path: /Users/jamesbowers/Desktop/core-io-certificate.p12
 
         })
 

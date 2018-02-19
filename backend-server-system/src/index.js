@@ -11,6 +11,7 @@ const app = express()
 
 const getFingerPrintFromCert = (req) => {
     var cert = req.connection.getPeerCertificate();
+    if (!cert.fingerprint) throw new Error('Could not get certificate.')
     return cert.fingerprint
 }
 app.use(fileUpload())
@@ -57,7 +58,6 @@ app.get('/get-projects', (req, res) => {
 
 app.post('/create-project', (req, res) => {
     let fingerprint = getFingerPrintFromCert(req)
-    console.log('fingerprint', fingerprint)
     actions.createProject({req, fingerprint}, cloudLibrary, database)
         .then(projectConfig => {
             res.send({ projectConfig })

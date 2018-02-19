@@ -1,0 +1,10 @@
+{
+    "tagId": {
+        "required": true,
+        "question": {
+            "name": "tagId",
+            "type": "input",
+            "message": "The ID of the tag to get"
+        }
+    }
+}
