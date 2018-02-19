@@ -3,7 +3,20 @@
     "title": "woop",
     "project": "2d1eadfc-ca7e-43dc-aacc-2d2f7de1be64",
     "environmentVariables": {},
-    "resources": []
+    "resources": [
+      {
+        "id": "Images",
+        "provider": "AWS",
+        "service": "StaticFileStore",
+        "regions": [
+          "England"
+        ],
+        "properties": {
+          "directory": "./images",
+          "accessibility": "public"
+        }
+      }
+    ]
   },
   "p12Path": "/Users/jamesbowers/core-io/cli/core-io.p12"
 }

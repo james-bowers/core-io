@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const clear = require('clear');
 const utils = require('./Utils')
 const clui = require('clui');

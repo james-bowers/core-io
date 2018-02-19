@@ -24,7 +24,7 @@ let gcp = {
                     encType="multipart/form-data"
                     method='POST'
                     action={`https://localhost:5000/project/${matches.project}/tag/${matches.tagId}/deploy`}>
-                    <input type='text' name='folderPath' value='some/path' />
+                    <input type='text' name='folderPath' />
                     <input type='file' name='static_file' />
                     <input type='submit' value='Deploy' />
                 </form>
