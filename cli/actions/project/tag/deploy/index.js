@@ -1,5 +1,6 @@
 const utils = require('./../../../../Utils')
 const staticFileUpload = require('./staticFileUpload')
+const zipPackageUpload = require('./zipPackageUpload')
 
 let getResource = (config, resourceId) => {
     let resource;
@@ -17,6 +18,8 @@ module.exports = (host, params) => {
 
     if (resource.service === 'StaticFileStore'){
         return staticFileUpload(host, params, config, resource)
+    } else {
+        return zipPackageUpload(host, params, config, resource)
     }
     
 

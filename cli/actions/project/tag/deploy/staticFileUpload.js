@@ -1,16 +1,5 @@
-const utils = require('./../../../../Utils')
 const fs = require('fs')
-const path = require('path')
-
-let deploy = (host, config, params, formData) => {
-    return utils.fetch(host + `/project/${config.project}/tag/${params.tagId}/deploy`, {
-        formData,
-        method: 'POST',
-    }, params.certificate)
-        .then(responseBody => {
-            utils.prettyPrintJson(responseBody.body, 'blue')
-        })
-}
+let sendDeployPackage = require('./sendDeployPackage')
 
 let getResource = (config, resourceId) => {
     let resource;
@@ -47,7 +36,7 @@ module.exports = (host, params, config, resource) => {
     return Promise.all(files.map(file => {
         let localPath = [...file.dir].join('/')
 
-        return deploy(host, config, params, {
+        return sendDeployPackage(host, config, params, {
             folderPath: localPath.replace(staticFilesDirectory, ''),
             static_file: fs.createReadStream(`${localPath}/${file.file}`)
         })
