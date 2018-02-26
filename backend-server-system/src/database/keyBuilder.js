@@ -1,25 +1,18 @@
 let schema = require('./schema')
 
-let account = (d) => [schema.account, d.userId]
+let account = (keyData) => [schema.account, keyData.userId]
 
-let project = (d) => account(d).concat([schema.project, d.projectId])
+let project = (keyData) => account(keyData).concat([schema.project, keyData.projectId])
 
-let tag = (d) => project(d).concat([schema.tag, d.tagId])
+let tag = (keyData) => project(keyData).concat([schema.tag, keyData.tagId])
 
-let resource = (d) => tag(d).concat([schema.resource, d.resourceId]) // each resource holds the 'live' deployment number
+let resource = (keyData) => tag(keyData).concat([schema.resource, keyData.resourceId])
 
-module.exports = (d) => (type) =>  {
+module.exports = (keyData) => (type) =>  {
     return {
         project,
         tag,
         resource,
         account
-    }[type](d)
+    }[type](keyData)
 }
-
-/*
-project // holds which tag is live
- - tag
-    - environment variables
-    - resources
-*/
