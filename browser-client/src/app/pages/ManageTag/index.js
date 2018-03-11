@@ -55,6 +55,6 @@ export default class _ManageTag extends Component {
     }
 
     render(props) {
-        return this.state.loaded ? this.renderFull() : <p>loading</p>
+        return this.state.loaded ? this.renderFull() : <p>Loading</p>
     }
 }

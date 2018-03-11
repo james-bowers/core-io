@@ -58,6 +58,7 @@ export default class _ProjectList extends Component {
     }
 
     render(){
-        return this.state.loading ? <p>Loading</p> : this.renderProjectDecision()
+        let signInMessage = <p>Please create an account, and install the certificate for your browser to use.</p>
+        return this.state.loading ? signInMessage : this.renderProjectDecision()
     }
 }

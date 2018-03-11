@@ -3,10 +3,6 @@ import { h } from 'preact'
 import { Section, Button } from './../'
 import resources from './resources'
 
-let deployResource = (resource) => () => {
-    console.log('deploy resource', resource)
-}
-
 export default ({ tag, matches }) => {
     
     let config = tag.configuration

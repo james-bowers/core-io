@@ -2,6 +2,10 @@ import { h } from 'preact';
 import Anchor from './../anchor'
 export default (props) => {
     let { text, className, onClick, href } = props;
+
+    className = className || ''
+    props['data-test-id'] = props['data-test-id'] || ''
+
     if (href) {
         return (
             <Anchor data-test-id={`link_${props['data-test-id']}`} href={href}>
