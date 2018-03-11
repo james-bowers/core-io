@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { Form } from './../../stateless'
+import Form from './../../stateless/form'
 
 export default class _Form extends Component {
 
