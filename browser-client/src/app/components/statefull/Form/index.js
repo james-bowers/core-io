@@ -110,7 +110,11 @@ export default class _Form extends Component {
 
     render({ submitTxt, children }) {
         return (
-            <Form action={this.props.action} submitBtnState={this.state.submitBtnState} submitTxt={submitTxt} onSubmit={this.onSubmit}>
+            <Form 
+                action={this.props.action} 
+                submitBtnState={this.state.submitBtnState} 
+                submitTxt={submitTxt} 
+                onSubmit={this.onSubmit}>
                 {this.prepare(children)}
             </Form>
         )

@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { Button } from './../'
 
-export default ({ children, onInput, onSubmit, submitTxt, submitBtnState, action }) => {
+export default ({ children, onSubmit, submitTxt, submitBtnState, action }) => {
     submitBtnState = submitBtnState || 'btn-primary'
     return (
         <form class="form" onSubmit={onSubmit}>

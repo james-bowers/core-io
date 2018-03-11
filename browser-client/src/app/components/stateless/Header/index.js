@@ -1,5 +1,4 @@
 import {h} from 'preact'
-import './header-style.scss'
 import { Link } from 'preact-router'
 
 export default () => {
