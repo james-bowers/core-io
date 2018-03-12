@@ -18,13 +18,7 @@ const getCloudFunctions = () => {
         cloudFunctions: cf,
         authClient
     }
-    
-    // return authClient.authorize().then(data => {
-        // return {
-        //     cloudFunctions,
-        //     authClient
-        // }
-    // }) 
+
 }
 
 module.exports = (service) => {
