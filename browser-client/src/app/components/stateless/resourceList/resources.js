@@ -5,7 +5,7 @@ let gcp = {
     serverless: ({ resource, region, matches }) => {
         return (
             <Section>
-                <p>Resource type {resource.service} on the {resource.provider} platform, in {region} </p>
+                <p>Resource type {resource.service} on the {resource.provider} platform, in {region}</p>
                 <form 
                     encType="multipart/form-data"
                     method='POST' 
@@ -19,7 +19,7 @@ let gcp = {
     staticfilestore: ({ resource, region, matches }) => {
         return (
             <Section>
-                <p>Resource type {resource.service} on the {resource.provider} platform, in {region} </p>
+                <p>Resource type {resource.service} on the {resource.provider} platform, in {region}</p>
                 <form
                     encType="multipart/form-data"
                     method='POST'
@@ -42,7 +42,7 @@ let aws = {
 
         return (
             <Section>
-                <p>Resource type {resource.service} on the {resource.provider} platform, in {region} </p>
+                <p>Resource type {resource.service} on the {resource.provider} platform, in {region}</p>
                 <a target="_blank" href={serverlessEndpoint}>Visit endpoint</a>
                 <form
                     encType="multipart/form-data"
@@ -57,12 +57,12 @@ let aws = {
     staticfilestore: ({ resource, region, matches }) => {
         return (
             <Section>
-                <p>Resource type {resource.service} on the {resource.provider} platform, in {region} </p>
+                <p>Resource type {resource.service} on the {resource.provider} platform, in {region}</p>
                 <form
                     encType="multipart/form-data"
                     method='POST'
                     action={`https://localhost:5000/project/${matches.project}/tag/${matches.tagId}/deploy`}>
-                    <input type='text' name='folderPath' value='some/path' />
+                    <input type='text' name='folderPath' />
                     <input type='file' name='static_file' />
                     <input type='submit' value='Deploy' />
                 </form>

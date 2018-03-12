@@ -17,7 +17,7 @@ module.exports = (argv) => {
         let certificateQuestions = [
             {
                 name: 'passphrase',
-                type: 'input',
+                type: 'password',
                 message: 'Enter the passphrase for your core-io p.12 certificate',
             },
             {

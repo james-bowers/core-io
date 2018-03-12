@@ -5,7 +5,7 @@ const Promise = require('bluebird'),
 module.exports = (gcp, configuration, resource, gcpRegion, tagName, options) => {
 
     let { authClient, cloudFunctions } = gcp('CloudFunctions')
-
+    
     let location = `projects/deployments-project/locations/${gcpRegion}`
     
     let functionId = options.functionId || helper.genId()

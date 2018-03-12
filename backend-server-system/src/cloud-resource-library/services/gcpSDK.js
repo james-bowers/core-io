@@ -6,7 +6,7 @@ let cloudAccessCredentials = require('./cloud-credentials.json')
 
 const getCloudFunctions = () => {
 
-    let cloudFunctions = cloudfunctions('v1beta2')
+    let cf = cloudfunctions('v1beta2')
 
     let authClient = auth.fromJSON(cloudAccessCredentials.gcp)
 
@@ -15,7 +15,7 @@ const getCloudFunctions = () => {
     ]);
 
     return {
-        cloudFunctions,
+        cloudFunctions: cf,
         authClient
     }
     
@@ -28,7 +28,6 @@ const getCloudFunctions = () => {
 }
 
 module.exports = (service) => {
-        
     return {
         Storage: Storage({credentials: cloudAccessCredentials.gcp}),
         CloudFunctions: getCloudFunctions()

@@ -10,7 +10,7 @@
                 "England"
             ],
             "properties": {
-                "directory": "./images",
+                "directory": "./images/",
                 "accessibility": "public"
             }
         }

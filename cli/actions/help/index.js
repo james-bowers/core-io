@@ -49,6 +49,10 @@ module.exports = (host, params) => {
         {
             action: 'project tag get',
             description: 'Get specified tag configuration'
+        },
+        {
+            action: 'project tag deploy',
+            description: 'Deploy a specified tag'
         }
     ].forEach(displayActionHelp)
 
