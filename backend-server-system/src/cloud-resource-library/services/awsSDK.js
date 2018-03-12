@@ -27,6 +27,6 @@ module.exports = (service) => {
         lambda: (region) => {
             awsConfig.update({ region })
             return new AWS.Lambda(awsConfig)
-        },
+        }
     }[service]
 }
