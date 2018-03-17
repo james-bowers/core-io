@@ -8,6 +8,6 @@ module.exports = (host, params) => {
         json: true
     }, params.certificate)
     .then(responseBody => {
-        utils.prettyPrintJson(responseBody.body, 'blue')
+        utils.prettyPrintJson(responseBody.body, 'green')
     })
 }

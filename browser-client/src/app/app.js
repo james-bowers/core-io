@@ -23,19 +23,27 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <Header />
-                <main>
-                    <Router onChange={this.handleRoute}>
-                        <Home path="/" />
-                        <SignUp path="/sign-up" />
-                        <Account path="/account" />
-                        <Projects path="/projects" />
-                        <ManageProject path="/project/:project" />
-                        <CreateProject path="/create-project" />
-                        <CreateTag path="/create-tag/:project" />
-                        <ManageTag path="/project/:project/tag/:tagId" />
-                    </Router>
-                </main>
+                <div class="container">
+                    <div class="columns">
+                        <div class="column col-sm-12 col-md-4 col-lg-3 col-3">
+                            <Header />
+                        </div>
+                        <div class="column col-sm-12 col-md-8 col-lg-9 col-9">
+                            <main>
+                                <Router onChange={this.handleRoute}>
+                                    <Home path="/" />
+                                    <SignUp path="/sign-up" />
+                                    <Account path="/account" />
+                                    <Projects path="/projects" />
+                                    <ManageProject path="/project/:project" />
+                                    <CreateProject path="/create-project" />
+                                    <CreateTag path="/create-tag/:project" />
+                                    <ManageTag path="/project/:project/tag/:tagId" />
+                                </Router>
+                            </main>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

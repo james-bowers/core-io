@@ -12,7 +12,6 @@ export default class _SignUp extends Component {
             .then(response => response.blob())
             .then(blob => {
                 download(blob, 'core-io-certificate.p12')
-                window.location.href = "/projects"
                 return {error: false}
             })
             .catch(e => {

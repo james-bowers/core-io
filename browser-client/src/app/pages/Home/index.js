@@ -7,9 +7,6 @@ export default class _Home extends Component {
     render(){
         return (
             <div>
-                <Link href="/sign-up">sign up</Link>
-                <br />
-                <Link href="/account">account</Link>
                 <ProjectList />                
             </div>
         )

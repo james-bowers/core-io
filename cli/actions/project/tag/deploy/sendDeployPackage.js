@@ -6,6 +6,6 @@ module.exports = (host, config, params, formData) => {
         method: 'POST',
     }, params.certificate)
         .then(responseBody => {
-            utils.prettyPrintJson(responseBody.body, 'blue')
+            utils.prettyPrintJson(responseBody.body, 'green')
         })
 }

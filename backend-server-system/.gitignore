@@ -1,3 +1,5 @@
 node_modules
 cloud-credentials.json
 settings.js
+coverage
+.nyc_output
