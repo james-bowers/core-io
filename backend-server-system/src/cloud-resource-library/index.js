@@ -47,16 +47,34 @@ module.exports = (projectConfig) => (action, tagName, options = {}) => {
             let vendorFormattedRegion = helper.getVendorFormattedRegion(resource, region)
 
             let cloudAction = getAction(action, resource)
-            promisedActions.push(
-                cloudAction(cloudVendorSDK, projectConfig, resource, vendorFormattedRegion, tagName, options)
-                    .then(result => {
-                        return {
-                            region,
-                            resourceId: resource.id,
-                            cloudVendorInformation: result
-                        }
-                    })
-            )
+
+                // promisedActions.push(
+                //     cloudAction(cloudVendorSDK, projectConfig, resource, vendorFormattedRegion, tagName, options)
+                //         .then(result => {
+                //             return {
+                //                 region,
+                //                 resourceId: resource.id,
+                //                 cloudVendorInformation: result
+                //             }
+                //         })
+                // )
+                //}
+
+            let isDeployingResource = (action === 'deploy' && options.resourceId === resource.id)
+            if (isDeployingResource || action == 'create'){
+                console.log(action + ' ' + resource.id)
+                promisedActions.push(
+                    cloudAction(cloudVendorSDK, projectConfig, resource, vendorFormattedRegion, tagName, options)
+                        .then(result => {
+                            return {
+                                region,
+                                resourceId: resource.id,
+                                cloudVendorInformation: result
+                            }
+                        })
+                )
+            }
+            
         })
     })
 

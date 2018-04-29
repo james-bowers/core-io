@@ -11,6 +11,7 @@ let gcp = {
                     method='POST' 
                     action={`https://localhost:5000/project/${matches.project}/tag/${matches.tagId}/deploy`}>
                     <input type='file' name='serverless_zip' />
+                    <input type='hidden' name='resourceId' value={resource.id} />
                     <input type='submit' value='Deploy' />
                 </form>
             </Section>
@@ -25,6 +26,7 @@ let gcp = {
                     method='POST'
                     action={`https://localhost:5000/project/${matches.project}/tag/${matches.tagId}/deploy`}>
                     <input type='text' name='folderPath' />
+                    <input type='hidden' name='resourceId' value={resource.id} />
                     <input type='file' name='static_file' />
                     <input type='submit' value='Deploy' />
                 </form>
