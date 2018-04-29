@@ -31,6 +31,7 @@ module.exports = (host, params, config, resource) => {
         createZipFile(resolve, reject, resource.properties.directory)
     }).then((zipFileName) => {
         let formData = {
+            resourceId: resource.id,
             serverless_zip: fs.createReadStream(zipFileName)
         }
         sendDeployPackage(host, config, params, formData)

@@ -37,6 +37,7 @@ module.exports = (host, params, config, resource) => {
         let localPath = [...file.dir].join('/')
 
         return sendDeployPackage(host, config, params, {
+            resourceId: resource.id,
             folderPath: localPath.replace(staticFilesDirectory, ''),
             static_file: fs.createReadStream(`${localPath}/${file.file}`)
         })
