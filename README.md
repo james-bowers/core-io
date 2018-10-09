@@ -1,4 +1,4 @@
-# core-io
+# intercloud
 ## Requirements:
 ### cloud credentials file to give access to your GCP and AWS accounts
 
